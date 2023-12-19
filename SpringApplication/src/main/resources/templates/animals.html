@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Lista Zwierząt</title>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Lista Zwierząt</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Nr Zwierzęcia</th>
+      <th>Masa</th>
+      <th>Wiek</th>
+      <th>Imię</th>
+      <th>Płeć</th>
+      <th>Gatunek</th>
+      <th>Rasa</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="animal : ${animals}">
+      <td th:text="${animal.id}"></td>
+      <td th:text="${animal.mass}"></td>
+      <td th:text="${animal.age}"></td>
+      <td th:text="${animal.name}"></td>
+      <td th:text="${animal.gender}"></td>
+      <td th:text="${animal.breedAndSpecies.species}"></td>
+      <td th:text="${animal.breedAndSpecies.breed}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
