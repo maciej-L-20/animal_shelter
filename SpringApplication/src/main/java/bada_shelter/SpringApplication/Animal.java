@@ -30,6 +30,9 @@ public class Animal {
     @JoinColumn(name="NR_GATUNEK_RASA")
     private BreedAndSpecies breedAndSpecies;
 
+    @Transient
+    private String photoPath;
+
 
 }
 

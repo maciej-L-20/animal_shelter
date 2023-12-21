@@ -14,7 +14,7 @@ public class AppController implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/animals").setViewName("animals");
-        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/").setViewName("redirect:/index");
         registry.addViewController("/main").setViewName("main");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/main_admin").setViewName("admin/main_admin");
@@ -22,6 +22,7 @@ public class AppController implements WebMvcConfigurer {
     }
     @Controller
     public class DashboardController {
+
         @RequestMapping("/main")
         public String defaultAfterLogin(HttpServletRequest request) {
             if (request.isUserInRole("ADMIN")) {
@@ -34,6 +35,7 @@ public class AppController implements WebMvcConfigurer {
                 return "redirect:/index";
             }
         }
+
         @RequestMapping(value={"/main_admin"})
         public String showAdminPage(Model model) {
             return "admin/main_admin";
