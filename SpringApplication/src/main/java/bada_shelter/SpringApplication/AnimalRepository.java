@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
-    @Query(value = "SELECT * FROM (SELECT * FROM ZWIERZETA ORDER BY DBMS_RANDOM.value) WHERE ROWNUM <= 8", nativeQuery = true)
+    @Query(value = "SELECT * FROM (SELECT * FROM ZWIERZETA WHERE NR_ADOPTUJACEGO IS NULL ORDER BY DBMS_RANDOM.value) WHERE ROWNUM <= 8", nativeQuery = true)
     List<Animal> findRandomAnimals();
 }

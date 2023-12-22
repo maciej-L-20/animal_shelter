@@ -11,16 +11,28 @@
 
   <style>
     body {
-      background-color: #e6f7ff;
+      background-color: #eaf7ed; /* Jasny odcień zieleni dla tła body */
+      margin: 0;
     }
 
-    .navbar {
-      background-color: #007bff !important;
+    .navbar{
+      background-color: #2e7d32 !important; /* Zielony kolor navbara */
+      margin-bottom: 0;
+      margin-top: 0px;
+    }
+
+    .navbar-brand img {
+      max-height: 60px; /* Dostosuj wysokość loga */
+      margin-right: 10px;
+    }
+    .container{
+      margin-top: 0px;
+      margin-bottom: 0px;
     }
 
     .navbar-brand {
-      font-family: 'Open sans', sans-serif; /* Ustawienie trzcionki Pacifico dla nazwy schroniska */
-      font-size: 28px; /* Rozmiar czcionki */
+      font-family: 'Open sans', sans-serif;
+      font-size: 24px; /* Dostosuj rozmiar napisu */
       color: #ffffff !important;
     }
 
@@ -33,7 +45,7 @@
     }
 
     .navbar-dark .navbar-nav .nav-link:hover {
-      color: #cce5ff !important;
+      color: #a5d6a7 !important; /* Jasny odcień zielono-szarego dla hovera */
     }
 
     .carousel-image-container {
@@ -45,9 +57,9 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background-color: rgba(169, 169, 169, 0.9);
-      color: #ffffff; /* Kolor tekstu podpisu */
-      padding: 10px; /* Wewnętrzny odstęp dla podpisu */
+      background-color: rgba(100, 141, 117, 0.9); /* Odcień szaro-zielonego dla podpisu */
+      color: #ffffff;
+      padding: 10px;
     }
     .carousel-caption h1 {
       size: 32px;
@@ -59,23 +71,58 @@
     .carousel-caption h2 {
       size: 16px;
       text-align: left;
-      margin-top:0px;
-      margin-left:20px;
+      margin-top: 0px;
+      margin-left: 20px;
     }
 
-    .carousel{
-      max-width: 400px;
+    .carousel {
+      max-width: 500px;
+      max-height: 600px;
       margin: auto;
+    }
+
+    .carousel-image-container {
+      object-fit: fill;
+    }
+
+    .fixed-size-image {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+
+    /* Nowa kolorystyka dla formularza */
+    .search-form {
+      background-color: #c8e6c9; /* Odcień jasnozielony dla tła formularza */
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .search-input {
+      width: 70%;
+      margin-right: 10px;
+    }
+
+    .filter-select {
+      width: 25%;
+      margin-right: 10px;
+    }
+
+    .search-button {
+      width: 100%;
     }
   </style>
 </head>
-
 
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
-    <a class="navbar-brand" href="/">Schronisko Przytulne Łapki</a>
+    <a class="navbar-brand" href="#">
+      <img th:src="@{photos/logo_icon.png}" class="logo" alt="Logo" />
+      Schronisko Przytulne Łapki
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
             aria-controls="navbarResponsive"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -83,53 +130,75 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-
         <li class="nav-item active">
           <a class="nav-link" href="#">Strona główna
             <span class="sr-only">(current)</span>
           </a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link" th:href="@{/main}">Strona administratora</a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link" th:href="@{/main}">Zaloguj się</a></a>
         </li>
-
       </ul>
     </div>
   </div>
 </nav>
 
-  <!-- Przerwa między nawigacją a karuzelą -->
+
+<!-- Przerwa między nawigacją a karuzelą -->
   <div class="mb-4"></div>
 
-<div id="mainCarousel" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div th:each="animal, iterStat : ${animals}" class="carousel-item" th:classappend="${iterStat.first} ? 'active'">
-      <div class="carousel-image-container">
-        <img th:src="'data:image/png;base64,' + ${animal.getPhotoPath()}" class="d-block w-100" th:alt="${'Photo of ' + animal.getName()}">
-        <div class="carousel-caption">
-          <h1 th:text="${animal.getName()}"></h1>
-          <h2 th:text="${animal.gender+','+animal.age}">
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <div id="mainCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div th:each="animal, iterStat : ${animals}" class="carousel-item" th:classappend="${iterStat.first} ? 'active'">
+            <div class="carousel-image-container">
+              <img th:src="'data:image/png;base64,' + ${animal.getPhotoPath()}" class="fixed-size-image" th:alt="${'Photo of ' + animal.getName()}">
+              <div class="carousel-caption">
+                <h1 th:text="${animal.getName()}"></h1>
+                <h2 th:text="${animal.gender+','+animal.age}"></h2>
+              </div>
+            </div>
+          </div>
         </div>
+        <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Poprzedni</span>
+        </a>
+        <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Następny</span>
+        </a>
       </div>
     </div>
+
+    <div class="col-md-4">
+      <!-- Formularz wyszukiwania z filtrami -->
+      <form class="form-inline search-form">
+        <input type="text" class="form-control search-input" placeholder="Wyszukaj zwierzę...">
+
+        <!-- Filtry -->
+        <select class="form-control filter-select">
+          <option value="">Wybierz gatunek</option>
+          <option value="pies">Pies</option>
+          <option value="kot">Kot</option>
+        </select>
+
+        <select class="form-control filter-select">
+          <option value="">Wybierz płeć</option>
+          <option value="samiec">Samiec</option>
+          <option value="samica">Samica</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary search-button">Szukaj</button>
+      </form>
+    </div>
   </div>
-  <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Poprzedni</span>
-  </a>
-  <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Następny</span>
-  </a>
 </div>
-
-
-
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

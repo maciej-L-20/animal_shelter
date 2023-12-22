@@ -29,19 +29,19 @@ public class AnimalController {
         return "animals";
     }
 
+    // Metoda obsługująca żądanie GET dla spersonalizowanej strony o zwierzęciu
+    @GetMapping("/animal/{id}")
+    public String showAnimalDetailPage(@PathVariable Long id, Model model) {
+        Animal animal = animalRepository.getById(id);
+        model.addAttribute("animal", animal);
+        return "animal";
+    }
 
     @RequestMapping(value={"/index"})
     public String getIndexPage(Model model) {
         List<Animal> animals = animalRepository.findRandomAnimals();
         for (Animal animal : animals) {
-            try {
-                ClassPathResource resource = new ClassPathResource("static/photos/" + animal.getName() + ".png");
-                byte[] photoBytes = StreamUtils.copyToByteArray(resource.getInputStream());
-                String base64Photo = Base64.getEncoder().encodeToString(photoBytes);
-                animal.setPhotoPath(base64Photo);
-            } catch (IOException e) {
-                e.printStackTrace(); // Obsłuż błąd ładowania zdjęcia
-            }
+            animal.findPhotoPath();
         }
         model.addAttribute("animals", animals);
         return "index";
