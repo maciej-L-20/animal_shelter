@@ -55,10 +55,10 @@ public class Animal {
 
     //TODO: dodać adoptującego
 
-    public String findPhotoPath(){
+    public String findPhotoPath() {
         String base64Photo = "";
         try {
-            ClassPathResource resource = new ClassPathResource("static/photos/" + this.getName() + ".png");
+            ClassPathResource resource = new ClassPathResource("static/images/" + this.getName() + ".png");
             byte[] photoBytes = StreamUtils.copyToByteArray(resource.getInputStream());
             base64Photo = Base64.getEncoder().encodeToString(photoBytes);
             this.setPhotoPath(base64Photo);

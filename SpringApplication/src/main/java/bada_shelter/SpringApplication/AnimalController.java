@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
