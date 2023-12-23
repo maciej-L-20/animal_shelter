@@ -91,21 +91,45 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="animal-details-container">
-        <h1>Details for Animal</h1>
+        <h1>Informacje o zwierzęciu
+          <p th:text="${animal.name != null} ? ${animal.name} : ''"></p>
+        </h1>
 
         <!-- Informacje o zwierzęciu -->
-        <div class="d-flex">
+        <div class="d-flex align-items-start">
           <img th:src="'data:image/png;base64,' + ${animal.findPhotoPath()}" class="animal-image" alt="Photo of Animal">
-          <div>
-            <p th:text="${animal.name != null} ? ${'Name: ' + animal.name} : ''"></p>
-            <p th:text="${animal.breedAndSpecies.species != null} ? ${'Species: ' + animal.breedAndSpecies.species} : ''"></p>
-            <p th:text="${animal.gender != null} ? ${'Gender: ' + animal.gender} : ''"></p>
-            <p th:text="${animal.age != null} ? ${'Date of Birth: ' + animal.age} : ''"></p>
-            <p th:text="${animal.description != null} ? ${'Description: ' + animal.description} : ''"></p>
+
+          <div style="text-align: left;">
+            <div class="ml-3">
+              <p th:text="${animal.breedAndSpecies.species != null} ? ${'Gatunek: ' + animal.breedAndSpecies.species} : ''"></p>
+              <p th:text="${animal.gender != null} ? ${'Płeć: ' + animal.gender} : ''"></p>
+              <p th:text="${animal.age != null} ? ${'Wiek: ' + animal.age + ' lat(a)'} : ''"></p>
+              <p th:text="${animal.description != null} ? ${'Description: ' + animal.description} : ''"></p>
+            </div>
+          </div>
+
+          <div style="text-align: left;">
+            <div class="ml-5">
+              <details>
+                <summary>Szczegóły</summary>
+                <div><br></div>
+                <p th:text="${animal.acceptanceDate != null} ? ${'Data przyjęcia: ' + #dates.format(animal.acceptanceDate, 'dd.MM.yyyy')} : ''"></p>
+                <p th:text="${animal.mass != null} ? ${'Waga: ' + animal.mass + 'kg'} : ''"></p>
+                <p th:text="${animal.breedAndSpecies.breed != null} ? ${'Rasa: ' + animal.breedAndSpecies.breed} : ''"></p>
+              </details>
+            </div>
           </div>
         </div>
 
-        <!-- Reszta zawartości widoku -->
+        <!-- Przycisk "Adoptuj" -->
+        <div style="margin-top: 20px; text-align: center;">
+          <button id="adoptButton" style="width: 120px; padding: 10px 20px; background-color: #2e7d32; color: white; border: none; cursor: pointer;">
+            Adoptuj
+          </button>
+
+          <!-- Informacja o złożeniu prośby o adopcję (początkowo ukryta) -->
+          <p id="adoptionInfo" style="display: none; color: #2e7d32; margin-top: 10px;">Prośba o adopcję została złożona pomyślnie!</p>
+        </div>
       </div>
     </div>
   </div>
@@ -114,5 +138,40 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+
+    let isAdopted = false;
+
+    $('#adoptButton').click(function() {
+
+      if (!isAdopted) {
+        // Zmiana tekstu na przycisku na "Anuluj" po kliknięciu
+        $(this).text('Anuluj');
+
+        // Zmiana koloru przycisku na czerwony po kliknięciu
+        $(this).css('background-color', 'darkred');
+
+        // Wyświetlenie komunikatu o pomyślnym przesłaniu prośby o adopcję
+        $('#adoptionInfo').show();
+
+        isAdopted = true;
+
+      } else {
+        // Przywrócenie poprzedniego tekstu na przycisku ("Adoptuj")
+        $(this).text('Adoptuj');
+
+        // Przywrócenie poprzedniego koloru przycisku
+        $(this).css('background-color', '#2e7d32');
+
+        // Ukrycie komunikatu
+        $('#adoptionInfo').hide();
+
+        isAdopted = false;
+      }
+    });
+  });
+</script>
 </body>
 </html>
