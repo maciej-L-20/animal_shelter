@@ -4,35 +4,38 @@
   <meta charset="UTF-8"/>
   <title>Welcome Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Strona Główna Schroniska</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <!-- Dodanie Google Fonts - Open Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
 
   <style>
+    /* Styl dla body */
     body {
       background-color: #eaf7ed; /* Jasny odcień zieleni dla tła body */
       margin: 0;
     }
 
-    .navbar{
+    /* Styl dla navbara */
+    .navbar {
       background-color: #2e7d32 !important; /* Zielony kolor navbara */
       margin-bottom: 0;
       margin-top: 0px;
     }
 
+    /* Styl dla branda w navbarze */
     .navbar-brand img {
       max-height: 60px; /* Dostosuj wysokość loga */
       margin-right: 10px;
     }
-    .container{
+
+    .container {
       margin-top: 0px;
       margin-bottom: 0px;
     }
 
     .navbar-brand {
       font-family: 'Open sans', sans-serif;
-      font-size: 24px; /* Dostosuj rozmiar napisu */
+      max-font-size: 40px; /* Dostosuj rozmiar napisu */
       color: #ffffff !important;
     }
 
@@ -48,6 +51,12 @@
       color: #a5d6a7 !important; /* Jasny odcień zielono-szarego dla hovera */
     }
 
+    /* Styl dla kontenera z karuzelą */
+    .carousel-container {
+      margin-top: 20px; /* Dodatkowy margines na górę dla oddzielenia od navbara */
+    }
+
+    /* Styl dla obiektów w karuzeli */
     .carousel-image-container {
       position: relative;
     }
@@ -61,6 +70,7 @@
       color: #ffffff;
       padding: 10px;
     }
+
     .carousel-caption h1 {
       size: 32px;
       text-align: left;
@@ -82,7 +92,34 @@
     }
 
     .carousel-image-container {
+      max-width: 500px; /* Maksymalna szerokość */
+      max-height: 600px; /* Maksymalna wysokość */
+      margin: auto;
       object-fit: fill;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(169, 169, 169, 0.7); /* Szare tło z przeźroczystością */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0; /* Domyślnie ukryte */
+      transition: opacity 0.3s ease; /* Animacja pojawiania się */
+    }
+
+    .carousel-image-container:hover .overlay {
+      opacity: 1; /* Pokazuje overlay po najechaniu */
+    }
+
+    .overlay p {
+      color: #ffffff; /* Kolor tekstu */
+      margin: 0; /* Usuwa domyślne marginesy */
     }
 
     .fixed-size-image {
@@ -91,7 +128,7 @@
       object-fit: fill;
     }
 
-    /* Nowa kolorystyka dla formularza */
+    /* Styl dla formularza wyszukiwania */
     .search-form {
       background-color: #c8e6c9; /* Odcień jasnozielony dla tła formularza */
       padding: 15px;
@@ -101,11 +138,6 @@
 
     .search-input {
       width: 70%;
-      margin-right: 10px;
-    }
-
-    .filter-select {
-      width: 25%;
       margin-right: 10px;
     }
 
@@ -120,7 +152,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <img th:src="@{photos/logo_icon.png}" class="logo" alt="Logo" />
+      <img th:src="@{images/logo_icon.png}" class="logo" alt="Logo" />
       Schronisko Przytulne Łapki
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -146,23 +178,29 @@
   </div>
 </nav>
 
-
 <!-- Przerwa między nawigacją a karuzelą -->
-  <div class="mb-4"></div>
+<div class="mb-4"></div>
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-8">
+
+    <div class="col-md-8 carousel-container">
       <div id="mainCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <div th:each="animal, iterStat : ${animals}" class="carousel-item" th:classappend="${iterStat.first} ? 'active'">
-            <div class="carousel-image-container">
-              <img th:src="'data:image/png;base64,' + ${animal.getPhotoPath()}" class="fixed-size-image" th:alt="${'Photo of ' + animal.getName()}">
-              <div class="carousel-caption">
-                <h1 th:text="${animal.getName()}"></h1>
-                <h2 th:text="${animal.gender+','+animal.age}"></h2>
+            <a th:href="@{/animal/{id}(id=${animal.id})}">
+              <div class="carousel-image-container">
+                <img th:src="'data:image/png;base64,' + ${animal.getPhotoPath()}" class="fixed-size-image"
+                     th:alt="${'Photo of ' + animal.getName()}">
+                <div class="overlay">
+                  <p>Kliknij aby wyświetlić więcej informacji</p>
+                </div>
+                <div class="carousel-caption">
+                  <h1 th:text="${animal.getName()}"></h1>
+                  <h2 th:text="${animal.gender+','+animal.age}"></h2>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
         <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
@@ -178,25 +216,13 @@
 
     <div class="col-md-4">
       <!-- Formularz wyszukiwania z filtrami -->
-      <form class="form-inline search-form">
-        <input type="text" class="form-control search-input" placeholder="Wyszukaj zwierzę...">
-
-        <!-- Filtry -->
-        <select class="form-control filter-select">
-          <option value="">Wybierz gatunek</option>
-          <option value="pies">Pies</option>
-          <option value="kot">Kot</option>
-        </select>
-
-        <select class="form-control filter-select">
-          <option value="">Wybierz płeć</option>
-          <option value="samiec">Samiec</option>
-          <option value="samica">Samica</option>
-        </select>
+      <form th:action="@{/search}" method="get" class="form-inline search-form">
+        <input type="text" class="form-control search-input" name="name" placeholder="Wyszukaj zwierzę...">
 
         <button type="submit" class="btn btn-primary search-button">Szukaj</button>
       </form>
     </div>
+
   </div>
 </div>
 
@@ -204,6 +230,4 @@
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </body>
-
-
 </html>

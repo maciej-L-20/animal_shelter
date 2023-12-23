@@ -1,13 +1,17 @@
 package bada_shelter.SpringApplication;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Base64;
 
 @Configuration
 public class AppController implements WebMvcConfigurer {
