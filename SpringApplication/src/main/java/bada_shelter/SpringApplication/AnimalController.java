@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class AnimalController {
         return "animal";
     }
 
+    //Metoda obsługująca stronę główną
     @RequestMapping(value={"/index"})
     public String getIndexPage(Model model) {
         List<Animal> animals = animalRepository.findRandomAnimals();
@@ -46,5 +48,15 @@ public class AnimalController {
         return "index";
     }
 
+    //TODO: Uzupełnić kryteria i przygotować widok
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "name", required = false) String name, Model model) {
+        List<Animal> searchResults = new ArrayList<>();
+        if (name != null && !name.isEmpty()) {
+            searchResults = animalRepository.findAnimalsByNameContainingIgnoreCase(name);
+        }
+        model.addAttribute("animals",searchResults);
+        return "animals";
+    }
 
 }

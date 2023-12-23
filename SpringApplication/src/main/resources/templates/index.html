@@ -178,21 +178,9 @@
 
     <div class="col-md-4">
       <!-- Formularz wyszukiwania z filtrami -->
-      <form class="form-inline search-form">
-        <input type="text" class="form-control search-input" placeholder="Wyszukaj zwierzę...">
+      <form th:action="@{/search}" method="get" class="form-inline search-form">
+        <input type="text" class="form-control search-input" name="name" placeholder="Wyszukaj zwierzę...">
 
-        <!-- Filtry -->
-        <select class="form-control filter-select">
-          <option value="">Wybierz gatunek</option>
-          <option value="pies">Pies</option>
-          <option value="kot">Kot</option>
-        </select>
-
-        <select class="form-control filter-select">
-          <option value="">Wybierz płeć</option>
-          <option value="samiec">Samiec</option>
-          <option value="samica">Samica</option>
-        </select>
 
         <button type="submit" class="btn btn-primary search-button">Szukaj</button>
       </form>
