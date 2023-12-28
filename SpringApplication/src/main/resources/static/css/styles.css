@@ -1,0 +1,45 @@
+body {
+    background-color: #eaf7ed; /* Jasny odcień zieleni dla tła body */
+}
+
+.navbar {
+    background-color: #2e7d32 !important; /* Zielony kolor navbara */
+}
+
+.navbar-brand img {
+    max-height: 60px; /* Dostosuj wysokość loga */
+    margin-right: 10px;
+}
+
+.navbar-brand {
+    font-family: 'Open sans', sans-serif;
+    font-size: 24px; /* Dostosuj rozmiar napisu */
+    color: #ffffff !important;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-color: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #a5d6a7 !important; /* Jasny odcień zielono-szarego dla hovera */
+}
+
+.animal-details-container {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #c8e6c9; /* Odcień jasnozielony dla tła formularza */
+    border-radius: 5px;
+}
+
+.animal-image {
+    max-width: 200px; /* Dostosuj szerokość obrazka */
+    height: auto;
+    border-radius: 5px;
+    margin-right: 20px; /* Dodaj odstęp od prawej strony */
+}

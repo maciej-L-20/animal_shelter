@@ -10,15 +10,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AnimalController {
-
+    private final BreedAndSpeciesRepository breedAndSpeciesRepository;
     private final AnimalRepository animalRepository;
 
     @Autowired
-    public AnimalController(AnimalRepository animalService) {
+    public AnimalController(BreedAndSpeciesRepository breedAndSpeciesRepository, AnimalRepository animalService) {
         this.animalRepository = animalService;
+        this.breedAndSpeciesRepository = breedAndSpeciesRepository;
     }
 
     // Endpoint do pobierania listy wszystkich zwierząt
@@ -44,13 +46,27 @@ public class AnimalController {
         for (Animal animal : animals) {
             animal.findPhotoPath();
         }
+        List<BreedAndSpecies> breedAndSpecies = breedAndSpeciesRepository.findAll();
+        List<String> breeds = breedAndSpecies.stream().map(p->p.getBreed()).distinct()
+                .collect(Collectors.toList());
+        List<String> species = breedAndSpecies.stream().map(p->p.getSpecies()).distinct()
+                .collect(Collectors.toList());
+
         model.addAttribute("animals", animals);
+        model.addAttribute("breeds", breeds);
+        model.addAttribute("species", species);
         return "index";
     }
 
     //TODO: Uzupełnić kryteria i przygotować widok
     @GetMapping("/search")
-    public String search(@RequestParam(name = "name", required = false) String name, Model model) {
+    public String search(@RequestParam(name = "name", required = false) String name,
+                         @RequestParam(name = "ageMin", required = false) int minAge,
+                         @RequestParam(name = "ageMax", required = false) int maxAge,
+                         @RequestParam(name = "gender", required = false) String gender,
+                         @RequestParam(name = "species", required = false) String species,
+                         @RequestParam(name = "breed", required = false) String breed,
+                         Model model) {
         List<Animal> searchResults = new ArrayList<>();
         if (name != null && !name.isEmpty()) {
             searchResults = animalRepository.findAnimalsByNameContainingIgnoreCase(name);

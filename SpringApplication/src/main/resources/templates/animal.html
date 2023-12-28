@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="pl">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"1>
 <head>
   <meta charset="UTF-8"/>
   <title>Animal Details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" th:href="@{css/styles.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
   <!-- Dodanie Google Fonts - Open Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
   <style>
@@ -61,7 +61,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <img th:src="@{photos/logo_icon.png}" class="logo" alt="Logo" />
+      <img src="../static/images/logo_icon.png" th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
       Schronisko Przytulne Łapki
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -72,8 +72,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Strona główna
-            <span class="sr-only">(current)</span>
+          <a class="nav-link" th:href="@{/index}">Strona główna
           </a>
         </li>
         <li class="nav-item">
@@ -135,10 +134,9 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script>
   $(document).ready(function() {
 

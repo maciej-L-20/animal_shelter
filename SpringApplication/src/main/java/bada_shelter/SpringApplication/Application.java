@@ -3,7 +3,7 @@ package bada_shelter.SpringApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//TODO: Rozwinąć wyszukiwarkę, poprawić stronę zwierzęcia, dodać link do zdjęć, uzupełnić zdjęcia
+//TODO: Rozwinąć wyszukiwarkę, poprawić stronę zwierzęcia, uzupełnić zdjęcia, zmiana przycisku do rozwijania
 @SpringBootApplication
 public class Application {
 

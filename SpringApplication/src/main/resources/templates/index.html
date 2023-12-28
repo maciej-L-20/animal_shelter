@@ -129,20 +129,12 @@
     }
 
     /* Styl dla formularza wyszukiwania */
-    .search-form {
+    #search{
       background-color: #c8e6c9; /* Odcień jasnozielony dla tła formularza */
       padding: 15px;
       border-radius: 5px;
       margin-top: 20px;
-    }
-
-    .search-input {
-      width: 70%;
-      margin-right: 10px;
-    }
-
-    .search-button {
-      width: 100%;
+      color: #808080;
     }
   </style>
 </head>
@@ -152,7 +144,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <img th:src="@{images/logo_icon.png}" class="logo" alt="Logo" />
+      <img th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
       Schronisko Przytulne Łapki
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -178,12 +170,10 @@
   </div>
 </nav>
 
-<!-- Przerwa między nawigacją a karuzelą -->
-<div class="mb-4"></div>
-
 <div class="container mt-5">
   <div class="row">
 
+    <!--Karuzela ze zdjęciami -->
     <div class="col-md-8 carousel-container">
       <div id="mainCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -214,14 +204,89 @@
       </div>
     </div>
 
+    <!--Wyszukiwarka-->
     <div class="col-md-4">
-      <!-- Formularz wyszukiwania z filtrami -->
-      <form th:action="@{/search}" method="get" class="form-inline search-form">
-        <input type="text" class="form-control search-input" name="name" placeholder="Wyszukaj zwierzę...">
 
-        <button type="submit" class="btn btn-primary search-button">Szukaj</button>
-      </form>
+    <!-- Start Card -->
+    <div class="card" id="search">
+      <!-- Start Card Body -->
+      <div class="card-body">
+        <!-- Start Form -->
+        <form th:action="@{/search}" method="get">
+          <!-- IMIE -->
+          <div class="form-group">
+            <label for="name">Imię zwierzęcia</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Imię"/>
+          </div>
+          <!-- End Input Name -->
+
+          <!-- Wiek i płeć -->
+          <div class="form-row">
+
+            <!-- Wiek -->
+            <div class="form-group col-md-4">
+              <label>Zakres wieku</label>
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <input type="number" step="0" class="form-control" id="ageMin" name="ageMin" min=0>
+                <div class="pl-1 pr-2">-</div>
+                <input type="number" step="1" class="form-control" id="ageMax" name="ageMax">
+              </div>
+            </div>
+
+            <!--Płeć -->
+            <div class="form-group col-md-4">
+              <label>Płeć</label>
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="gender" class="form-check-input" value="male">
+                  Samiec
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" name="gender" class="form-check-input" value="female">
+                  Samica
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Gatunek i rasa -->
+          <div class="form-row">
+            <!-- Gatunek -->
+            <div class="form-group col-md-4">
+              <label>Gatunek</label>
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <select class="form-control mr-1" id="species" name="species">
+                  <option></option>
+                  <option th:each="specie : ${species}" th:value="${specie}" th:text="${specie}">
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Rasa -->
+            <div class="form-group col-md-6">
+              <label>Rasa</label>
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <select class="form-control mr-1" id="breed" name="breed">
+                  <option></option>
+                  <option th:each="breed : ${breeds}" th:value="${breed}" th:text="${breed}">
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Szukaj</button>
+          </span>
+        </form>
+        <!-- End Form -->
+      </div>
+      <!-- End Card Body -->
     </div>
+    <!-- End Card -->
+    </div>
+
 
   </div>
 </div>

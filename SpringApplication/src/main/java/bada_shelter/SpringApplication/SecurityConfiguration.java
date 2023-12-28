@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import
         org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -29,9 +30,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/index").permitAll()
-                .antMatchers("/search").permitAll()
                 .antMatchers("/resources/static/**").permitAll()
+                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/animal").permitAll()
+                .antMatchers("/search").permitAll()
                 .antMatchers("/main").authenticated()
                 .antMatchers("/main_admin").access("hasRole('ADMIN')")
                 .antMatchers("/main_user").access("hasRole('USER')")
@@ -45,5 +47,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/index")
                 .logoutSuccessUrl("/index")
                 .permitAll();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**");
+        web.ignoring().antMatchers("/scripts/**");
+        web.ignoring().antMatchers("/images/**");
     }
 }
