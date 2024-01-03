@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -47,9 +48,9 @@ public class AnimalController {
             animal.findPhotoPath();
         }
         List<BreedAndSpecies> breedAndSpecies = breedAndSpeciesRepository.findAll();
-        List<String> breeds = breedAndSpecies.stream().map(p->p.getBreed()).distinct()
+        List<String> breeds = breedAndSpecies.stream().map(p->p.getBreed()).distinct().filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        List<String> species = breedAndSpecies.stream().map(p->p.getSpecies()).distinct()
+        List<String> species = breedAndSpecies.stream().map(p->p.getSpecies()).distinct().filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
         model.addAttribute("animals", animals);
@@ -59,19 +60,18 @@ public class AnimalController {
     }
 
     //TODO: Uzupełnić kryteria i przygotować widok
-    @GetMapping("/search")
-    public String search(@RequestParam(name = "name", required = false) String name,
-                         @RequestParam(name = "ageMin", required = false) int minAge,
-                         @RequestParam(name = "ageMax", required = false) int maxAge,
+    @GetMapping("/searchToAdoption")
+    public String searchToAnimalsAdoption(@RequestParam(name = "name", required = false) String name,
+                         @RequestParam(name = "ageMin", required = false) Integer minAge,
+                         @RequestParam(name = "ageMax", required = false) Integer maxAge,
                          @RequestParam(name = "gender", required = false) String gender,
                          @RequestParam(name = "species", required = false) String species,
                          @RequestParam(name = "breed", required = false) String breed,
                          Model model) {
-        List<Animal> searchResults = new ArrayList<>();
-        if (name != null && !name.isEmpty()) {
-            searchResults = animalRepository.findAnimalsByNameContainingIgnoreCase(name);
-        }
-        model.addAttribute("animals",searchResults);
+
+        List<Animal> searchResults = animalRepository.searchAnimals(name, minAge, maxAge, gender, species, breed).stream().filter(p-> p.getLeaveDate() == null).toList();
+
+        model.addAttribute("animals", searchResults);
         return "animals";
     }
 

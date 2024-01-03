@@ -36,15 +36,15 @@
     .navbar-brand {
       font-family: 'Open sans', sans-serif;
       max-font-size: 40px; /* Dostosuj rozmiar napisu */
-      color: #ffffff !important;
+      color: #f7fff7 !important;
     }
 
     .navbar-dark .navbar-toggler-icon {
-      background-color: #ffffff;
+      background-color: #f7fff7;
     }
 
     .navbar-dark .navbar-nav .nav-link {
-      color: #ffffff !important;
+      color: #f7fff7 !important;
     }
 
     .navbar-dark .navbar-nav .nav-link:hover {
@@ -67,7 +67,7 @@
       left: 0;
       right: 0;
       background-color: rgba(100, 141, 117, 0.9); /* Odcień szaro-zielonego dla podpisu */
-      color: #ffffff;
+      color: #f7fff7;
       padding: 10px;
     }
 
@@ -118,7 +118,7 @@
     }
 
     .overlay p {
-      color: #ffffff; /* Kolor tekstu */
+      color: #f7fff7; /* Kolor tekstu */
       margin: 0; /* Usuwa domyślne marginesy */
     }
 
@@ -136,6 +136,109 @@
       margin-top: 20px;
       color: #808080;
     }
+
+    /* Naprawa stylowania pól number */
+    #search input[type="number"]::-webkit-inner-spin-button,
+    #search input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    #search input[type="number"] {
+      -moz-appearance: textfield;
+    }
+
+    /* Dodane style dla formularza wyszukiwania */
+    #search form {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #search .form-group {
+      flex: 1;
+      margin-right: 15px; /* Dodatkowy odstęp między polami */
+      margin-bottom: 15px; /* Dodatkowy odstęp między rzędami */
+    }
+
+    #search .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px; /* Dodatkowy odstęp między rzędami */
+    }
+
+    #search .form-row .form-group {
+      margin-right: 15px; /* Dodatkowy odstęp między polami */
+    }
+
+    #search button {
+      margin-top: 10px; /* Dodatkowy margines dla przycisku */
+    }
+    /* Styl dla formularza wyszukiwania */
+    #search {
+      background-color: #b3e0b7; /* Jasny, świeży kolor tła formularza */
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      color: #333; /* Kolor tekstu formularza */
+    }
+
+    #search label {
+      color: #555; /* Kolor tekstu etykiet formularza */
+    }
+
+    #search input[type="text"],
+    #search input[type="number"],
+    #search select {
+      background-color: #fff; /* Białe tło pól tekstowych, liczbowych i wyboru */
+      color: #333; /* Kolor tekstu pól tekstowych, liczbowych i wyboru */
+      border: 1px solid #ccc; /* Jasne obramowanie pól */
+    }
+
+    #search input[type="text"]:focus,
+    #search input[type="number"]:focus,
+    #search select:focus {
+      border: 1px solid #2e7d32; /* Zmiana koloru obramowania na zielony po kliknięciu */
+    }
+
+    #search button {
+      background-color: #2e7d32; /* Zielony kolor przycisku */
+      color: #fff; /* Biały kolor tekstu przycisku */
+      border: none;
+    }
+    /* Styl dla formularza wyszukiwania */
+    #search input[type="number"] {
+      width: 45px; /* Dostosuj szerokość pól liczbowych dla wieku */
+    }
+
+    #search button:hover {
+      background-color: #4caf50; /* Ciemniejszy odcień zielonego po najechaniu myszą */
+    }
+    /* Styl dla nagłówka formularza */
+    .form-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-header h2 {
+      color: #2e7d32; /* Zielony kolor dla nagłówka */
+      margin-bottom: 10px;
+    }
+
+    .form-header p {
+      color: #555; /* Kolor tekstu dla opisu pod nagłówkiem */
+    }
+    /* Styl dla podpowiedzi (tooltip) */
+    .btn[title]:hover::after {
+      content: attr(title);
+      padding: 5px;
+      background-color: #f7fff7;
+      color: #555;
+      position: absolute;
+      z-index: 1;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
   </style>
 </head>
 
@@ -212,7 +315,12 @@
       <!-- Start Card Body -->
       <div class="card-body">
         <!-- Start Form -->
-        <form th:action="@{/search}" method="get">
+        <form th:action="@{/searchToAdoption}" method="get">
+          <!-- Nagłówek dla formularza -->
+          <div class="form-header">
+            <h2>Znajdź swojego wymarzonego przyjaciela</h2>
+          </div>
+
           <!-- IMIE -->
           <div class="form-group">
             <label for="name">Imię zwierzęcia</label>
@@ -224,27 +332,25 @@
           <div class="form-row">
 
             <!-- Wiek -->
-            <div class="form-group col-md-4">
-              <label>Zakres wieku</label>
+            <div class="form-group col-md-6">
+              <label>Wiek</label>
               <div class="d-flex flex-row justify-content-between align-items-center">
-                <input type="number" step="0" class="form-control" id="ageMin" name="ageMin" min=0>
-                <div class="pl-1 pr-2">-</div>
+                <input type="number" step="1" class="form-control" id="ageMin" name="ageMin" min="0">
+                <div class="pl-0.3 pr-1.3">-</div>
                 <input type="number" step="1" class="form-control" id="ageMax" name="ageMax">
               </div>
             </div>
 
-            <!--Płeć -->
+
+
             <div class="form-group col-md-4">
               <label>Płeć</label>
               <div class="d-flex flex-row justify-content-between align-items-center">
-                <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" class="form-check-input" value="male">
-                  Samiec
-                </div>
-                <div class="form-check form-check-inline">
-                  <input type="radio" name="gender" class="form-check-input" value="female">
-                  Samica
-                </div>
+                <select class="form-control mr-1" id="gender" name="gender">
+                  <option></option>
+                  <option value = "Samiec">Samiec</option>
+                  <option value = "Samica">Samica</option>
+                </select>
               </div>
             </div>
           </div>
@@ -277,7 +383,9 @@
           </div>
 
           <span class="input-group-btn">
-            <button class="btn btn-default" type="submit">Szukaj</button>
+              <button class="btn btn-default" type="submit" title="Kliknij, aby poznać odpowiednie zwierzęta">
+              Szukaj
+              </button>
           </span>
         </form>
         <!-- End Form -->

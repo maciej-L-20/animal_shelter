@@ -53,6 +53,7 @@ public class Animal {
     @Column(name = "OPIS")
     private String description;
 
+
     //TODO: dodać adoptującego
 
     public String findPhotoPath() {
