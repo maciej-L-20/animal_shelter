@@ -13,6 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //TODO: Elastyczność CSS - osobny css dla pracowników i głównej oraz wspólny css do wspólnych cech
 //TODO: Obsługa błędów
 //TODO: Strona zwierzęcia - dodać opis i sprawdzić na przykładzie jak działa, KASTRACJA - T zamienić na tak N na nie w szczegółach
+//TODO: Strona główna - jeśli użytkownik jest zalogowany to możliwość wylogowania i przejścia do strony pracownika z menu rozwijanego z przycisku ,,zalogowano jako xyz"
+//TODO: Strona admina - rozwijanie do sidebaru
+//TODO: Po opcji wyszukaj dodać adminowi możliwość modyfikacji
 @SpringBootApplication
 public class Application {
 

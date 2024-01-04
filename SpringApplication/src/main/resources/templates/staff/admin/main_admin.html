@@ -12,62 +12,115 @@
         .navbar {
             background-color: #5072A7 !important; /* Dark blue color for the admin navbar for staff page */
         }
+
+        .sidebar {
+            background-color: #8a8f94; /* Gray color for the sidebar */
+            color: #fff; /* White text color for the sidebar */
+            height: 100vh;
+            position: fixed;
+            width: 200px;
+            transition: width 0.3s;
+            overflow: hidden;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            transition: padding 0.3s;
+        }
+
+        .sidebar a:hover {
+            padding-left: 20px; /* Adjust padding on hover */
+            background-color: #666; /* Slightly darker gray background on hover */
+        }
+
+        .content {
+            margin-left: 250px; /* Adjust margin to fit sidebar width */
+            padding: 15px;
+        }
+        #sidebar-dropdown {
+            background-color:#8a8f94 ;
+        }
     </style>
 </head>
+
 <body>
-
-
 <!-- NAWIGACJA -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation" id="sidebar-toggle">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <a class="navbar-brand" href="#">
             <img th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
             Schronisko Przytulne Łapki — panel administratora
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/index}">Strona główna</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Zalogowano jako: <b
-                            style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" style="color: lightskyblue;">
+                        Zalogowano jako: <b th:text="${#httpServletRequest.remoteUser}" style="text-transform: capitalize;"></b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <form method="post" th:action="@{/index}">
+                            <button class="dropdown-item" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj</button>
+                        </form>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container">
-    <div class="row">
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Zwierzęta
+            </a>
+            <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
+                <a class="dropdown-item" href="#">Wyszukaj</a>
+                <a class="dropdown-item" href="#">Dodaj</a>
+                <a class="dropdown-item" href="#">Adopcje</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Pracownicy</a>
+        </li>
 
-        <div class="col-md-10 mt-5">
-            <form method="post" th:action="@{/index}">
-                <div class="form-group">
-                    <label style="font-size:30px" th:inline="text">Welcome <a
-                            style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a>
-                        to the main page!</label>
-                    <div style="font-size:20px">If you want to logout, click "Logout" button under this text.</div>
-                </div>
-
-                <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout
-                </button>
-            </form>
-        </div>
-
-    </div>
+    </ul>
 </div>
 
+<!-- Treść strony -->
+<div class="content">
+    <!-- Tutaj umieść treść strony -->
+    <div class="container">
+        <!-- ... -->
+    </div>
+</div>
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/script.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#sidebar-toggle").click(function () {
+            $("#sidebar").toggleClass("sidebar-collapsed");
+        });
+    });
+</script>
 
 </body>
 </html>
