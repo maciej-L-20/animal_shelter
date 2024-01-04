@@ -8,7 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //TODO: Uzupełnić tabelę zwierzęta w bazie - zdjęcia, opisy
 //TODO: Obsługa adoptujących - klasa i w zwierzętach
 //TODO: Wyszukiwarka - po wyborze rasy psa powinny być tylko rasy psów.
-//TODO: Strona admina - zarządzanie zwierzętami i adopcjami
+//TODO: Strona admina - zarządzanie zwierzętami i pracownikami
+//TODO: Strona pracownika - zarządzanie zwierzętami
+//TODO: Elastyczność CSS - osobny css dla pracowników i głównej oraz wspólny css do wspólnych cech
+//TODO: Obsługa błędów
+//TODO: Strona zwierzęcia - dodać opis i sprawdzić na przykładzie jak działa, KASTRACJA - T zamienić na tak N na nie w szczegółach
 @SpringBootApplication
 public class Application {
 

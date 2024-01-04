@@ -2,12 +2,14 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org"1>
 <head>
   <meta charset="UTF-8"/>
-  <title>Animal Details</title>
+  <link rel="icon" type="image/x-icon" href="/images/logo_icon.png">
+  <title th:text="${animal.name + ' | Schronisko Przytulne Łapki'}"> Animal | Schronisko Przytulne Łapki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
   <!-- Dodanie Google Fonts - Open Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+  <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
   <style>
     body {
       background-color: #eaf7ed; /* Jasny odcień zieleni dla tła body */
@@ -58,28 +60,26 @@
 </head>
 <body>
 
+<!-- NAVIGATION -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <img src="../static/images/logo_icon.png" th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
+      <img th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
       Schronisko Przytulne Łapki
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-            aria-controls="navbarResponsive"
-            aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" th:href="@{/index}">Strona główna
+          <a class="nav-link" href="#">Strona główna
+            <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/main}">Strona administratora</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/main}">Zaloguj się</a></a>
+          <a class="nav-link" th:href="@{/main_staff}">Dla pracowników</a>
         </li>
       </ul>
     </div>
@@ -115,6 +115,8 @@
                 <p th:text="${animal.acceptanceDate != null} ? ${'Data przyjęcia: ' + #dates.format(animal.acceptanceDate, 'dd.MM.yyyy')} : ''"></p>
                 <p th:text="${animal.mass != null} ? ${'Waga: ' + animal.mass + 'kg'} : ''"></p>
                 <p th:text="${animal.breedAndSpecies.breed != null} ? ${'Rasa: ' + animal.breedAndSpecies.breed} : ''"></p>
+                <p th:text="${animal.isNeutered != null} ? ${'Kastracja: ' + animal.isNeutered} : ''"></p>
+                <p th:text="${animal.description!= null} ? ${'Opis: ' + animal.description} : ''"></p>
               </details>
             </div>
           </div>

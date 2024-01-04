@@ -2,17 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Main User Page</title>
-
+    <link rel="icon" type="image/x-icon" href="/images/logo_icon.png">
+    <title>Panel administratora | Schronisko Przytulne Łapki - strona pracownicza</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-
+    <!-- Dodanie Google Fonts - Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="../static/css/staff_styles.css" th:href="@{/css/staff_styles.css}" rel="stylesheet" />
+    <style>
+        .navbar {
+            background-color: #5072A7 !important; /* Dark blue color for the admin navbar for staff page */
+        }
+    </style>
 </head>
 <body>
 
-<!-- Navigation -->
+
+<!-- NAWIGACJA -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <a class="navbar-brand" href="/">BDBT Spring Boot Project - Part II</a>
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
+            Schronisko Przytulne Łapki — panel administratora
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -20,22 +31,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/index}">Home</a>
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
                 </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Main
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">You are logged in as <b
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Zalogowano jako: <b
                             style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
                 </li>
-
             </ul>
         </div>
     </div>
