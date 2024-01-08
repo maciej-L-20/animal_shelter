@@ -14,43 +14,73 @@
 <!-- NAWIGACJA -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <img th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
-            Schronisko Przytulne Łapki — panel pracownika
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-target="#navbarResponsive"
+                data-toggle="collapse" id="sidebar-toggle" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <a class="navbar-brand" href="/main">
+            <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
+            Schronisko Przytulne Łapki — panel pracownika
+        </a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/index}">Strona główna</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Zalogowano jako: <b
-                            style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" href="#"
+                       id="userDropdown" role="button" style="color: lightskyblue;">
+                        Zalogowano jako: <b style="text-transform: capitalize;"
+                                            th:text="${#httpServletRequest.remoteUser}"></b>
+                    </a>
+                    <div aria-labelledby="userDropdown" class="dropdown-menu">
+                        <form method="post" th:action="@{/index}">
+                            <button class="dropdown-item" onclick="successfullyLogout()" type="submit" value="Sign Out">
+                                Wyloguj
+                            </button>
+                        </form>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Zwierzęta
+            </a>
+            <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
+                <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
+                <a class="dropdown-item" href="/addAnimal">Dodaj</a>
+                <a class="dropdown-item" href="#">Adopcje</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Pracownicy</a>
+        </li>
+
+    </ul>
+</div>
 
 <div class="container">
     <div class="row">
-
         <div class="col-md-10 mt-5">
                 <form method="post" th:action="@{/index}">
                 <div class="form-group">
-                    <label th:inline="text">Welcome <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a> to the main page!</label>
-                    <div>If you want to logout, click "Logout" button under this text.</div>
+                    <label th:inline="text">Witaj <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a>!</label>
+                    <div>Aby się wylogować naciśnij przycisk poniżej lub użyj panelu w prawym górnym rogu</div>
                 </div>
 
                 <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout</button>
             </form>
         </div>
-
     </div>
 </div>
 

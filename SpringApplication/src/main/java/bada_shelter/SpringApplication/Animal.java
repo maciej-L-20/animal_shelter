@@ -15,7 +15,8 @@ import java.util.Date;
 public class Animal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "animal_id_seq", sequenceName = "sequence_nr_zwierzecia", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_id_seq")
     @Column(name = "NR_ZWIERZECIA")
     private Long id;
 

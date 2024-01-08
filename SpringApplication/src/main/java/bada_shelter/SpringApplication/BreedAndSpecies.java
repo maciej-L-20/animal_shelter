@@ -10,7 +10,8 @@ import javax.persistence.*;
 public class BreedAndSpecies {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "bs_id_seq", sequenceName = "SEQUENCE_NR_GATUNEK_RASA", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bs_id_seq")
     @Column(name = "NR_GATUNEK_RASA")
     private Long id;
 

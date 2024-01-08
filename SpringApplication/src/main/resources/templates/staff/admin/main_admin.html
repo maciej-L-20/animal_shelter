@@ -8,41 +8,9 @@
     <!-- Dodanie Google Fonts - Open Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
     <link href="../static/css/staff_styles.css" th:href="@{/css/staff_styles.css}" rel="stylesheet" />
+    <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
     <style>
-        .navbar {
-            background-color: #5072A7 !important; /* Dark blue color for the admin navbar for staff page */
-        }
 
-        .sidebar {
-            background-color: #8a8f94; /* Gray color for the sidebar */
-            color: #fff; /* White text color for the sidebar */
-            height: 100vh;
-            position: fixed;
-            width: 200px;
-            transition: width 0.3s;
-            overflow: hidden;
-        }
-
-        .sidebar a {
-            padding: 15px;
-            text-decoration: none;
-            color: #fff;
-            display: block;
-            transition: padding 0.3s;
-        }
-
-        .sidebar a:hover {
-            padding-left: 20px; /* Adjust padding on hover */
-            background-color: #666; /* Slightly darker gray background on hover */
-        }
-
-        .content {
-            margin-left: 250px; /* Adjust margin to fit sidebar width */
-            padding: 15px;
-        }
-        #sidebar-dropdown {
-            background-color:#8a8f94 ;
-        }
     </style>
 </head>
 
@@ -55,8 +23,8 @@
                 aria-expanded="false" aria-label="Toggle navigation" id="sidebar-toggle">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
-            <img th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
+        <a class="navbar-brand" href="/main">
+            <img th:src="@{/images/logo_icon.png}" th:href="@{/main}" class="logo" alt="Logo" />
             Schronisko Przytulne Łapki — panel administratora
         </a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -89,8 +57,8 @@
                 Zwierzęta
             </a>
             <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
-                <a class="dropdown-item" href="#">Wyszukaj</a>
-                <a class="dropdown-item" href="#">Dodaj</a>
+                <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
+                <a class="dropdown-item" href="/addAnimal">Dodaj</a>
                 <a class="dropdown-item" href="#">Adopcje</a>
             </div>
         </li>
@@ -105,7 +73,18 @@
 <div class="content">
     <!-- Tutaj umieść treść strony -->
     <div class="container">
-        <!-- ... -->
+        <div class="row">
+        <div class="col-md-10 mt-5">
+            <form method="post" th:action="@{/index}">
+                <div class="form-group">
+                    <label th:inline="text">Witaj <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a>!</label>
+                    <div>Aby się wylogować naciśnij przycisk poniżej lub użyj panelu w prawym górnym rogu</div>
+                </div>
+
+                <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout</button>
+            </form>
+        </div>
+    </div>
     </div>
 </div>
 

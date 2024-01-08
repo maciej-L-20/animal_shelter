@@ -34,7 +34,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers("/animal").permitAll()
                 .antMatchers("/searchToAdoption").permitAll()
-                .antMatchers("/main").authenticated()
+                .antMatchers("/main").authenticated() // Wpuszcza każdego zalogowanego
+                .antMatchers("/search_panel").authenticated()
+                .antMatchers("/addAnimal").authenticated()
+                .antMatchers("/admin/search_panel").access("hasRole('ADMIN')")
                 .antMatchers("/main_admin").access("hasRole('ADMIN')")
                 .antMatchers("/main_staff").access("hasRole('USER')")
                 .and()
@@ -48,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/index")
                 .permitAll();
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {

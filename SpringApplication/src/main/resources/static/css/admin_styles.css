@@ -1,0 +1,8 @@
+.navbar {
+    background-color: #5072A7 !important; /* Dark blue color for the admin navbar for staff page */
+}
+
+.sidebar {
+    background-color: #8a8f94; /* Gray color for the sidebar */
+    color: #fff; /* White text color for the sidebar */
+}

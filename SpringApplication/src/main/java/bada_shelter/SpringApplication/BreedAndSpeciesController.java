@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 public class BreedAndSpeciesController {
@@ -16,10 +18,4 @@ public class BreedAndSpeciesController {
         this.breedAndSpeciesRepository = breedAndSpeciesRepository;
     }
 
-    // Endpoint do pobierania listy wszystkich zwierząt
-    @RequestMapping(value={"/breedAndSpecies"})
-    public List<BreedAndSpecies> getAllBreedAndSpecies() {
-        List<BreedAndSpecies> breedAndSpecies= breedAndSpeciesRepository.findAll();
-        return breedAndSpecies;
-    }
 }

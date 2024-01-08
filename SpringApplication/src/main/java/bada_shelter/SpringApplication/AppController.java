@@ -8,6 +8,9 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Configuration
 public class AppController implements WebMvcConfigurer {
@@ -15,7 +18,8 @@ public class AppController implements WebMvcConfigurer {
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/animals").setViewName("animals");
         registry.addViewController("/").setViewName("redirect:/index");
-
+        registry.addViewController("/staff/admin/search_panel").setViewName("staff/admin/search_panel");
+        registry.addViewController("/staff/search_panel").setViewName("staff/search_panel");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/main_admin").setViewName("staff/admin/main_admin");
         registry.addViewController("/main_staff").setViewName("staff/main_staff");
@@ -28,11 +32,9 @@ public class AppController implements WebMvcConfigurer {
         public String defaultAfterLogin(HttpServletRequest request) {
             if (request.isUserInRole("ADMIN")) {
                 return "redirect:/main_admin";
-            }
-            else if (request.isUserInRole("USER")) {
+            } else if (request.isUserInRole("USER")) {
                 return "redirect:/main_staff";
-            }
-            else {
+            } else {
                 return "redirect:/login";
             }
         }

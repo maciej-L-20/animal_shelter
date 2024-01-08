@@ -83,27 +83,15 @@
               <h2>Znajdź swojego wymarzonego przyjaciela</h2>
             </div>
 
+            <div class="form-row">
             <!-- Pet's name -->
-            <div class="form-group">
+            <div class="form-group col-md-6">
               <label for="name">Imię zwierzęcia</label>
               <input type="text" class="form-control" id="name" name="name" placeholder="Imię" />
             </div>
 
-            <!-- Age and gender -->
-            <div class="form-row">
-              <!-- Age -->
-              <div class="form-group col-md-6">
-                <label>Wiek</label>
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                  <input type="number" step="1" class="form-control" id="ageMin" name="ageMin"
-                         min="0">
-                  <div class="pl-0.3 pr-1.3">-</div>
-                  <input type="number" step="1" class="form-control" id="ageMax" name="ageMax">
-                </div>
-              </div>
-
               <!-- Gender -->
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-5">
                 <label>Płeć</label>
                 <div class="d-flex flex-row justify-content-between align-items-center">
                   <select class="form-control mr-1" id="gender" name="gender">
@@ -115,10 +103,34 @@
               </div>
             </div>
 
+            <!-- Age and Mass -->
+            <div class="form-row">
+              <!-- Age -->
+              <div class="form-group col-md-5">
+                <label>Wiek</label>
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                  <input type="number" step="1" class="form-control" id="ageMin" name="ageMin"
+                         min="0">
+                  <div class="pl-0.3 pr-0.3">-</div>
+                  <input type="number" step="1" class="form-control" id="ageMax" name="ageMax">
+                </div>
+              </div>
+              <!-- Mass -->
+              <div class="form-group col-md-5">
+                <label>Masa</label>
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                  <input type="number" step="1" class="form-control" id="massMin" name="massMin"
+                         min="0">
+                  <div class="pl-0.3 pr-0.3">-</div>
+                  <input type="number" step="1" class="form-control" id="massMax" name="massMax">
+                </div>
+              </div>
+            </div>
+
             <!-- Species and breed -->
             <div class="form-row">
               <!-- Species -->
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-5">
                 <label>Gatunek</label>
                 <div class="d-flex flex-row justify-content-between align-items-center">
                   <select class="form-control mr-1" id="species" name="species">

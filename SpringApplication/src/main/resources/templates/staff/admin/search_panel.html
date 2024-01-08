@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <link href="/images/logo_icon.png" rel="icon" type="image/x-icon">
+  <title>Panel administratora | Schronisko Przytulne Łapki - strona pracownicza</title>
+  <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+  <!-- Dodanie Google Fonts - Open Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+  <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
+  <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
+  <style>
+
+  </style>
+</head>
+
+<body>
+<!-- NAWIGACJA -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarResponsive"
+            data-toggle="collapse" id="sidebar-toggle" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/main">
+      <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
+      Schronisko Przytulne Łapki — panel administratora
+    </a>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/index}">Strona główna</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+             data-toggle="dropdown" href="#"
+             id="userDropdown" role="button" style="color: lightskyblue;">
+            Zalogowano jako: <b style="text-transform: capitalize;"
+                                th:text="${#httpServletRequest.remoteUser}"></b>
+          </a>
+          <div aria-labelledby="userDropdown" class="dropdown-menu">
+            <form method="post" th:action="@{/index}">
+              <button class="dropdown-item" onclick="successfullyLogout()" type="submit" value="Sign Out">
+                Wyloguj
+              </button>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
+        Zwierzęta
+      </a>
+      <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
+        <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
+        <a class="dropdown-item" href="/addAnimal">Dodaj</a>
+        <a class="dropdown-item" href="#">Adopcje</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Pracownicy</a>
+    </li>
+
+  </ul>
+</div>
+
+<!-- Treść strony -->
+<div class="content">
+  <div class="card" id="search">
+    <div class="card-body">
+      <form method="get" th:action="@{/searchAnimals}">
+        <div class="form-header">
+          <h2>Wyszukaj zwierzę</h2>
+        </div>
+
+        <!-- ID number -->
+        <div class="form-group" col-md-3>
+          <label for="name">Numer identyfikacyjny</label>
+          <input class="form-control" id="idNumber" name="IdNumber" placeholder="Numer" type="text"/>
+        </div>
+
+        <!--Name and gender-->
+        <div class="form-row">
+          <!-- Pet's name -->
+          <div class="form-group col-md-6">
+            <label for="name">Imię zwierzęcia</label>
+            <input class="form-control" id="name" name="name" placeholder="Imię" type="text"/>
+          </div>
+
+          <!-- Gender -->
+          <div class="form-group col-md-5">
+            <label>Płeć</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <select class="form-control mr-1" id="gender" name="gender">
+                <option></option>
+                <option value="Samiec">Samiec</option>
+                <option value="Samica">Samica</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Age and Mass -->
+        <div class="form-row">
+          <!-- Age -->
+          <div class="form-group col-md-5">
+            <label>Wiek</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <input class="form-control" id="ageMin" min="0" name="ageMin" step="1"
+                     type="number">
+              <div class="pl-0.3 pr-0.3">-</div>
+              <input class="form-control" id="ageMax" name="ageMax" step="1" type="number">
+            </div>
+          </div>
+          <!-- Mass -->
+          <div class="form-group col-md-5">
+            <label>Masa</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <input class="form-control" id="massMin" min="0" name="massMin" step="1"
+                     type="number">
+              <div class="pl-0.3 pr-0.3">-</div>
+              <input class="form-control" id="massMax" name="massMax" step="1" type="number">
+            </div>
+          </div>
+        </div>
+
+        <!-- Species and breed -->
+        <div class="form-row">
+          <!-- Species -->
+          <div class="form-group col-md-4">
+            <label>Gatunek</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <select class="form-control mr-1" id="species" name="species">
+                <option></option>
+                <option th:each="specie : ${species}" th:text="${specie}"
+                        th:value="${specie}">
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Breed -->
+          <div class="form-group col-md-6">
+            <label>Rasa</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <select class="form-control mr-1" id="breed" name="breed">
+                <option></option>
+                <option th:each="breed : ${breeds}" th:text="${breed}" th:value="${breed}">
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- Age -->
+          <div class="form-group col-md-5">
+            <label>Data przyjęcia</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <input id="minAcceptanceDate" name="minAcceptanceDate" type="date"/>
+              <div class="pl-0.3 pr-0.3">-</div>
+              <input id="maxAcceptanceDate" name="maxAcceptanceDate" type="date"/>
+            </div>
+          </div>
+
+          <!-- Age -->
+          <div class="form-group col-md-5">
+            <label>Data opuszczenia</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <input id="minLeaveDate" name="minLeaveDate" type="date"/>
+              <div class="pl-0.3 pr-0.3">-</div>
+              <input id="maxLeaveDate" name="maxLeaveDate" type="date"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search button -->
+        <span class="input-group-btn">
+              <button class="btn btn-default" title="Kliknij, aby poznać odpowiednie zwierzęta" type="submit">
+                Szukaj
+              </button>
+            </span>
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#sidebar-toggle").click(function () {
+      $("#sidebar").toggleClass("sidebar-collapsed");
+    });
+  });
+</script>
+
+</body>
+</html>
