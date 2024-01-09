@@ -28,9 +28,6 @@ public class StaffController {
         breedAndSpeciesRepository.getAllBreedsAndSpecies(breeds,species);
         model.addAttribute("breeds",breeds);
         model.addAttribute("species",species);
-        if (request.isUserInRole("ADMIN")) {
-            return "/staff/admin/search_panel";
-        }
         return "/staff/search_panel";
     }
     @GetMapping("/addAnimal")
@@ -40,9 +37,6 @@ public class StaffController {
         breedAndSpeciesRepository.getAllBreedsAndSpecies(breeds,species);
         model.addAttribute("breeds",breeds);
         model.addAttribute("species",species);
-        if (request.isUserInRole("ADMIN")) {
-            return "/staff/admin/add_panel";
-        }
         return "/staff/add_panel";
     }
 }

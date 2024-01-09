@@ -3,6 +3,7 @@ package bada_shelter.SpringApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
@@ -28,9 +29,10 @@ public class AnimalController {
 
     // Metoda obsługująca żądanie GET dla spersonalizowanej strony o zwierzęciu
     @GetMapping("/animal/{id}")
-    public String showAnimalDetailPage(@PathVariable Long id, Model model) {
+    public String showAnimalDetailPage(@PathVariable Long id, Model model,HttpServletRequest request) {
         Animal animal = animalRepository.getById(id);
         model.addAttribute("animal", animal);
+        if(request.isUserInRole("ADMIN")||request.isUserInRole("USER")) return "/staff/animal";
         return "animal";
     }
 
@@ -61,19 +63,16 @@ public class AnimalController {
                                           @RequestParam(name = "gender", required = false) String gender,
                                           @RequestParam(name = "species", required = false) String species,
                                           @RequestParam(name = "breed", required = false) String breed,
-                                          @RequestParam(value = "minAcceptanceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String minAcceptanceDate,
-                                          @RequestParam(value = "maxAcceptanceDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String maxAcceptanceDate,
-                                          @RequestParam(value = "minLeaveDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String minLeaveDate,
-                                          @RequestParam(value = "maxLeaveDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String maxLeaveDate,
                                           Model model) {
 
-        List<Animal> searchResults = animalRepository.searchAnimals(name, minAge, maxAge, minMass, maxMass, gender, species, breed,minAcceptanceDate,maxAcceptanceDate,minLeaveDate,maxLeaveDate).stream().filter(p -> p.getLeaveDate() == null).toList();
+        List<Animal> searchResults = animalRepository.searchAnimalsForClients(name, minAge, maxAge, minMass, maxMass, gender, species, breed).stream().filter(p -> p.getLeaveDate() == null).toList();
 
         model.addAttribute("animals", searchResults);
         return "fittingAnimals";
     }
     @GetMapping("/searchAnimals")
-    public String searchAnimals(@RequestParam(name = "name", required = false) String name,
+    public String searchAnimals(@RequestParam(name = "idNumber",required = false) Integer idNumber,
+            @RequestParam(name = "name", required = false) String name,
                                 @RequestParam(name = "ageMin", required = false) Integer minAge,
                                 @RequestParam(name = "ageMax", required = false) Integer maxAge,
                                 @RequestParam(name = "massMin", required = false) Integer minMass,
@@ -86,9 +85,11 @@ public class AnimalController {
                                 @RequestParam(value = "minLeaveDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String minLeaveDate,
                                 @RequestParam(value = "maxLeaveDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String maxLeaveDate,
                                 Model model){
-        List<Animal> searchResults = animalRepository.searchAnimals(name, minAge, maxAge, minMass, maxMass, gender, species, breed,minAcceptanceDate,maxAcceptanceDate,minLeaveDate,maxLeaveDate);
+        Long id = null;
+        if(idNumber!=null) id = Long.valueOf(idNumber);
+        List<Animal> searchResults = animalRepository.searchAnimals(id,name, minAge, maxAge, minMass, maxMass, gender, species, breed,minAcceptanceDate,maxAcceptanceDate,minLeaveDate,maxLeaveDate);
         model.addAttribute("animals",searchResults);
-        return "animals";
+        return "/staff/search_result";
 
     }
 
@@ -124,9 +125,6 @@ public class AnimalController {
         animal.setBreedAndSpecies(breedAndSpecies.get(0));
 
         animalRepository.save(animal);
-        if (request.isUserInRole("ADMIN")) {
-            return "/staff/admin/successful_adding";
-        }
         return "/staff/successful_adding";
     }
 }

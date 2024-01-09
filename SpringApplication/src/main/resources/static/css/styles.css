@@ -182,3 +182,17 @@ body {
     border-radius: 5px;
     margin-top: 5px;
 }
+.animal-details-container {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #c8e6c9; /* Odcień jasnozielony dla tła formularza */
+    border-radius: 5px;
+}
+
+.animal-image {
+    max-width: 200px; /* Dostosuj szerokość obrazka */
+    height: auto;
+    border-radius: 5px;
+    margin-right: 20px; /* Dodaj odstęp od prawej strony */
+}

@@ -125,7 +125,7 @@ body {
     border-radius: 5px;
     margin-top: 5px;
 }
-.login-header h2 {
+h2 {
     font-family: 'Open sans', sans-serif;
     max-font-size: 50px; /* Adjust font size for the brand */
     color: #002D62 !important; /* White color for the brand */
@@ -140,4 +140,10 @@ body {
 
 #mess p {
     margin: 0; /* Zeruj margines dla <p> */
+}
+.fitted h2{
+    margin-bottom:30px;
+}
+.animal-details-container {
+    background-color: #AED3F2
 }

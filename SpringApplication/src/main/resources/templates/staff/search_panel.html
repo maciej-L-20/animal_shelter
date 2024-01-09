@@ -8,8 +8,10 @@
     <!-- Dodanie Google Fonts - Open Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
     <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
+    <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+        <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
+    </th:block>
     <style>
-
     </style>
 </head>
 
@@ -25,7 +27,12 @@
         </button>
         <a class="navbar-brand" href="/main">
             <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
-            Schronisko Przytulne Łapki — panel pracownika
+            <th:text th:if="${#httpServletRequest.isUserInRole('USER')}">
+                Schronisko Przytulne Łapki — panel pracownika
+            </th:text>
+            <th:text th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+                Schronisko Przytulne Łapki — panel administratora
+            </th:text>
         </a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
@@ -66,9 +73,11 @@
                 <a class="dropdown-item" href="#">Adopcje</a>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Pracownicy</a>
-        </li>
+        <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pracownicy</a>
+            </li>
+        </th:block>
 
     </ul>
 </div>
@@ -85,7 +94,7 @@
                 <!-- ID number -->
                 <div class="form-group" col-md-3>
                     <label for="name">Numer identyfikacyjny</label>
-                    <input class="form-control" id="idNumber" name="IdNumber" placeholder="Numer" type="text"/>
+                    <input class="form-control" id="idNumber" name="idNumber" placeholder="Numer" type="text"/>
                 </div>
 
                 <!--Name and gender-->
@@ -194,8 +203,6 @@
     </div>
 </div>
 
-</div>
-</div>
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

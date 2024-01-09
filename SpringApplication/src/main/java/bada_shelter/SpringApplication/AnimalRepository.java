@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +19,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
     //TODO: ROZBUDOWAĆ DLA ADMINA O ADOPTUJACYCH
     @Query("SELECT a FROM Animal a " +
             "WHERE (:name IS NULL OR LOWER(a.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:idNumber IS NULL OR a.id = :idNumber) " +
             "AND (:minAge IS NULL OR a.age >= :minAge) " +
             "AND (:maxAge IS NULL OR a.age <= :maxAge) " +
             "AND (:minMass IS NULL OR a.mass >= :minMass) " +
@@ -27,7 +29,8 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
             "AND (:breed IS NULL OR LOWER(a.breedAndSpecies.breed) = LOWER(:breed))"+
             "AND ((:minLeaveDate IS NULL AND :maxLeaveDate IS NULL) OR (a.leaveDate BETWEEN TO_DATE(:minLeaveDate, 'YYYY-MM-DD') AND TO_DATE(:maxLeaveDate, 'YYYY-MM-DD')))"+
             "AND ((:minAcceptanceDate IS NULL AND :maxAcceptanceDate IS NULL) OR (a.acceptanceDate BETWEEN TO_DATE(:minAcceptanceDate, 'YYYY-MM-DD') AND TO_DATE(:maxAcceptanceDate, 'YYYY-MM-DD')))")
-    List<Animal> searchAnimals(@Param("name") String name,
+    List<Animal> searchAnimals(@Param("idNumber") Long idNumber,
+            @Param("name") String name,
                                @Param("minAge") Integer minAge,
                                @Param("maxAge") Integer maxAge,
                                @Param("minMass") Integer minMass,
@@ -40,4 +43,23 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
                                @Param("minLeaveDate") String minLeaveDate,
                                @Param("maxLeaveDate") String maxLeaveDate
                                );
+    @Query("SELECT a FROM Animal a " +
+            "WHERE (:name IS NULL OR LOWER(a.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:minAge IS NULL OR a.age >= :minAge) " +
+            "AND (:maxAge IS NULL OR a.age <= :maxAge) " +
+            "AND (:minMass IS NULL OR a.mass >= :minMass) " +
+            "AND (:maxMass IS NULL OR a.mass <= :maxMass) " +
+            "AND (:gender IS NULL OR LOWER(a.gender) = LOWER(:gender)) " +
+            "AND (:species IS NULL OR LOWER(a.breedAndSpecies.species) = LOWER(:species)) " +
+            "AND (:breed IS NULL OR LOWER(a.breedAndSpecies.breed) = LOWER(:breed))")
+    List<Animal> searchAnimalsForClients(
+                               @Param("name") String name,
+                               @Param("minAge") Integer minAge,
+                               @Param("maxAge") Integer maxAge,
+                               @Param("minMass") Integer minMass,
+                               @Param("maxMass") Integer maxMass,
+                               @Param("gender") String gender,
+                               @Param("species") String species,
+                               @Param("breed") String breed
+    );
 }
