@@ -70,5 +70,14 @@ public class Animal {
         return base64Photo;
     }
 
+    public String getNeuteredStatus() {
+        if (this.isNeutered == 'T') {
+            return "Tak";
+        } else if (this.isNeutered == 'N') {
+            return "Nie";
+        } else {
+            return "Błąd";
+        }
+    }
 }
 

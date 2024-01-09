@@ -114,7 +114,7 @@
                 <p th:text="${animal.acceptanceDate != null} ? ${'Data przyjęcia: ' + #dates.format(animal.acceptanceDate, 'dd.MM.yyyy')} : ''"></p>
                 <p th:text="${animal.mass != null} ? ${'Waga: ' + animal.mass + 'kg'} : ''"></p>
                 <p th:text="${animal.breedAndSpecies.breed != null} ? ${'Rasa: ' + animal.breedAndSpecies.breed} : ''"></p>
-                <p th:text="${animal.isNeutered != null} ? ${'Kastracja: ' + animal.isNeutered} : ''"></p>
+                <p th:text="${animal.isNeutered != null} ? ${'Kastracja: ' + animal.getNeuteredStatus()} : ''"></p>
                 <p th:text="${animal.description!= null} ? ${'Opis: ' + animal.description} : ''"></p>
               </details>
             </div>
