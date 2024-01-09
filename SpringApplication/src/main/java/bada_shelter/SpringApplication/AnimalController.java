@@ -70,9 +70,8 @@ public class AnimalController {
         List<Animal> searchResults = animalRepository.searchAnimals(name, minAge, maxAge, minMass, maxMass, gender, species, breed,minAcceptanceDate,maxAcceptanceDate,minLeaveDate,maxLeaveDate).stream().filter(p -> p.getLeaveDate() == null).toList();
 
         model.addAttribute("animals", searchResults);
-        return "animals";
+        return "fittingAnimals";
     }
-
     @GetMapping("/searchAnimals")
     public String searchAnimals(@RequestParam(name = "name", required = false) String name,
                                 @RequestParam(name = "ageMin", required = false) Integer minAge,

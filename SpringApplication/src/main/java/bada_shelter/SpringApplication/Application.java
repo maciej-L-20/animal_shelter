@@ -15,7 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //TODO: Strona główna - jeśli użytkownik jest zalogowany to możliwość wylogowania i przejścia do strony pracownika z menu rozwijanego z przycisku ,,zalogowano jako xyz"
 //TODO: Strona admina - rozwijanie do sidebaru
 //TODO: Po opcji wyszukaj dodać adminowi możliwość modyfikacji
-//TODO:Dodawanie zwierząt - własne gatunki i rasy
+//TODO: Dodawanie zwierząt - własne gatunki i rasy
+//TODO: Przechodzenie na strone główną nie działa
 @SpringBootApplication
 public class Application {
 
