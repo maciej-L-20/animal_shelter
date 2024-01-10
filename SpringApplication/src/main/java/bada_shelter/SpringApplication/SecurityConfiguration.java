@@ -1,8 +1,10 @@
 package bada_shelter.SpringApplication;
 
+import ch.qos.logback.core.db.DataSourceConnectionSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -19,25 +21,20 @@ import javax.sql.DataSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JdbcUserDetailsManager jdbcUserDetailsManager() {
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager();
-        userDetailsManager.setDataSource(dataSource);
-        return userDetailsManager;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .jdbcAuthentication()
-                .dataSource(dataSource)
+                .dataSource(jdbcTemplate.getDataSource())
                 .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("SELECT nazwa_uzytkownika, haslo, wlaczony FROM uzytkownicy WHERE nazwa_uzytkownika=?")
                 .authoritiesByUsernameQuery("SELECT nazwa_uzytkownika, uprawnienie FROM uprawnienia WHERE nazwa_uzytkownika=?");
