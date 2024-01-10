@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class BCryptPasswordChecker {
 
     public static void main(String[] args) {
-        String password = "user"; // Zmień na swoje zamierzane hasło
+        String password = "admin"; // Zmień na swoje zamierzane hasło
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         String hashedPassword = passwordEncoder.encode(password);
