@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <link href="/images/logo_icon.png" rel="icon" type="image/x-icon">
+  <title>Panel pracownika | Schronisko Przytulne Łapki - strona pracownicza</title>
+  <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+  <!-- Dodanie Google Fonts - Open Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+  <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
+  <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+    <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
+  </th:block>
+  <style>
+  </style>
+</head>
+
+<body>
+<!-- NAWIGACJA -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarResponsive"
+            data-toggle="collapse" id="sidebar-toggle" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/main">
+      <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
+      <th:text th:if="${#httpServletRequest.isUserInRole('USER')}">
+        Schronisko Przytulne Łapki — panel pracownika
+      </th:text>
+      <th:text th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+        Schronisko Przytulne Łapki — panel administratora
+      </th:text>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/index}">Strona główna</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+             data-toggle="dropdown" href="#"
+             id="userDropdown" role="button" style="color: lightskyblue;">
+            Zalogowano jako: <b style="text-transform: capitalize;"
+                                th:text="${#httpServletRequest.remoteUser}"></b>
+          </a>
+          <div aria-labelledby="userDropdown" class="dropdown-menu">
+            <form method="post" th:action="@{/index}">
+              <button class="dropdown-item" onclick="successfullyLogout()" type="submit" value="Sign Out">
+                Wyloguj
+              </button>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="sidebar" id="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
+        Zwierzęta
+      </a>
+      <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
+        <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
+        <a class="dropdown-item" href="/addAnimal">Dodaj</a>
+        <a class="dropdown-item" href="#">Adopcje</a>
+      </div>
+    </li>
+    <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pracownicy</a>
+      </li>
+    </th:block>
+
+  </ul>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 mt-5">
+
+      <!-- Nie ma zwierząt spełniających kryteria -->
+      <div th:if="${#lists.isEmpty(animals)}">
+        <div class="container mt-5">
+          <h1 class="text-center">Nie znaleziono zwierząt</h1>
+          <p class="text-center">Niestety, nie znaleziono żadnych zwierząt spełniających kryteria wyszukiwania.</p>
+          <div class="text-center mt-3">
+            <a th:href="@{/}" class="btn btn-primary">Powrót do strony głównej</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Są zwierzęta spełniające kryteria -->
+      <div th:unless="${#lists.isEmpty(animals)}">
+        <div class="container mt-5">
+          <div class="fitted">
+            <h2 class="text-center">Znalezione zwierzęta:</h2>
+          </div>
+          <!-- Lista pasujących zwierząt -->
+          <div class="card-columns">
+            <!-- Pętla wyświetlająca zwierzęta -->
+            <div th:each="animal : ${animals}" class="card">
+              <div class="card-body">
+                <h5 class="card-title" th:text="${animal.name != null} ? ${animal.name} : ''"></h5>
+                <p class="card-text" th:text="${animal.breedAndSpecies.species != null} ? ${'Gatunek: ' + animal.breedAndSpecies.species} : ''"></p>
+                <p class="card-text" th:text="${animal.gender != null} ? ${'Płeć: ' + animal.gender} : ''"></p>
+                <p class="card-text" th:text="${animal.age != null} ? ${'Wiek: ' + animal.age + ' lat(a)'} : ''"></p>
+                <a th:href="@{/animal/{id}(id=${animal.id})}" class="btn btn-primary">
+                  Kliknij aby wyświetlić więcej informacji
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#sidebar-toggle").click(function () {
+      $("#sidebar").toggleClass("sidebar-collapsed");
+    });
+  });
+</script>
+
+</body>
+</html>

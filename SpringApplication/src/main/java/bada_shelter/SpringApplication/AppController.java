@@ -32,7 +32,7 @@ public class AppController implements WebMvcConfigurer {
             if (request.isUserInRole("ADMIN") || request.isUserInRole("USER")) {
                 return "redirect:/main_staff";
             } else {
-                return "redirect:/login";
+                return "redirect:/main_staff";
             }
         }
         @RequestMapping(value={"/main_staff"})
