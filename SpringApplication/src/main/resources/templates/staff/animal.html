@@ -1,10 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <title>Panel pracownika | Schronisko Przytulne Łapki - strona pracownicza</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <!-- Dodanie Google Fonts - Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link href="../static/css/staff_styles.css" th:href="@{/css/staff_styles.css}" rel="stylesheet" />
+    <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+        <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
+    </th:block>
 </head>
 <body>
+
+<!-- NAWIGACJA -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-target="#navbarResponsive"
+                data-toggle="collapse" id="sidebar-toggle" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/main">
+            <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
+            <th:text th:if="${#httpServletRequest.isUserInRole('USER')}">
+                Schronisko Przytulne Łapki — panel pracownika
+            </th:text>
+            <th:text th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+                Schronisko Przytulne Łapki — panel administratora
+            </th:text>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" href="#"
+                       id="userDropdown" role="button" style="color: lightskyblue;">
+                        Zalogowano jako: <b style="text-transform: capitalize;"
+                                            th:text="${#httpServletRequest.remoteUser}"></b>
+                    </a>
+                    <div aria-labelledby="userDropdown" class="dropdown-menu">
+                        <form method="post" th:action="@{/index}">
+                            <button class="dropdown-item" onclick="successfullyLogout()" type="submit" value="Sign Out">
+                                Wyloguj
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Zwierzęta
+            </a>
+            <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
+                <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
+                <a class="dropdown-item" href="/addAnimal">Dodaj</a>
+                <a class="dropdown-item" href="#">Adopcje</a>
+            </div>
+        </li>
+        <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pracownicy</a>
+            </li>
+        </th:block>
+
+    </ul>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mt-5">
+            <div class="animal-details-container">
+                <h1>Informacje o zwierzęciu
+                    <p th:text="${animal.name != null} ? ${animal.name} : ''"></p>
+                </h1>
+
+                <!-- Informacje o zwierzęciu -->
+                <div class="d-flex align-items-start">
+                    <img th:src="'data:image/png;base64,' + ${animal.findPhotoPath()}" class="animal-image" alt="Photo of Animal">
+
+                    <div style="text-align: left;">
+                        <div class="ml-3">
+                            <p th:text="${animal.breedAndSpecies.species != null} ? ${'Gatunek: ' + animal.breedAndSpecies.species} : ''"></p>
+                            <p th:text="${animal.gender != null} ? ${'Płeć: ' + animal.gender} : ''"></p>
+                            <p th:text="${animal.age != null} ? ${'Wiek: ' + animal.age + ' lat(a)'} : ''"></p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: left;">
+                        <div class="ml-5">
+                            <details>
+                                <summary>Szczegóły</summary>
+                                <div><br></div>
+                                <p th:text="${animal.acceptanceDate != null} ? ${'Data przyjęcia: ' + #dates.format(animal.acceptanceDate, 'dd.MM.yyyy')} : ''"></p>
+                                <p th:text="${animal.mass != null} ? ${'Waga: ' + animal.mass + 'kg'} : ''"></p>
+                                <p th:text="${animal.breedAndSpecies.breed != null} ? ${'Rasa: ' + animal.breedAndSpecies.breed} : ''"></p>
+                                <p th:text="${animal.isNeutered != null} ? ${'Kastracja: ' + animal.getNeuteredStatus()} : ''"></p>
+                                <p th:text="${animal.description!= null} ? ${'Opis: ' + animal.description} : ''"></p>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/css/js/js/script.js}"></script>
 
 </body>
 </html>
