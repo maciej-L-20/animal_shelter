@@ -148,7 +148,7 @@
                     <div class="form-group col-md-6">
                         <label>Rasa</label>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <select class="form-control mr-1" id="breed" name="breed">
+                            <select class="form-control mr-1" id="breed" name="breed" disabled> <!-- Pole rasy zablokowane -->
                                 <option></option>
                                 <option th:each="breed : ${breeds}" th:text="${breed}" th:value="${breed}">
                                 </option>
@@ -216,6 +216,40 @@
     $(document).ready(function () {
         $("#sidebar-toggle").click(function () {
             $("#sidebar").toggleClass("sidebar-collapsed");
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const speciesDropdown = document.getElementById('species');
+        const breedDropdown = document.getElementById('breed');
+
+        breedDropdown.disabled = true;
+
+        speciesDropdown.addEventListener('change', function() {
+            const selectedSpecies = speciesDropdown.value;
+            breedDropdown.innerHTML = '<option></option>';
+            breedDropdown.disabled = selectedSpecies === '';
+
+            if (selectedSpecies !== '') {
+                fetch(`/getBreedsBySpecies/${selectedSpecies}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const uniqueBreeds = new Set(data); // Utwórz zestaw, który automatycznie usuwa duplikaty
+
+                        // Przed dodaniem opcji do listy, sprawdź czy opcja już nie istnieje
+                        uniqueBreeds.forEach(breed => {
+                            if (!breedDropdown.querySelector(`[value="${breed}"]`)) {
+                                const option = document.createElement('option');
+                                option.value = breed;
+                                option.text = breed;
+                                breedDropdown.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Błąd:', error));
+            }
         });
     });
 </script>
