@@ -25,7 +25,7 @@
     margin-left: 250px; /* Adjust margin to fit sidebar width */
     padding: 15px;
 }
-#sidebar-dropdown {
+.sidebar-dropdown {
     background-color:#8a8f94 ;
 }
 /* Global Styling */

@@ -59,22 +59,29 @@
 <div class="sidebar" id="sidebar">
   <ul class="nav flex-column">
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
+      <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
          aria-haspopup="true" aria-expanded="false">
         Zwierzęta
       </a>
-      <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
+      <div class="dropdown-menu sidebar-dropdown" aria-labelledby="submenuDropdown">
         <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
         <a class="dropdown-item" href="/addAnimal">Dodaj</a>
         <a class="dropdown-item" href="#">Adopcje</a>
       </div>
     </li>
-    <block sec:authorize="hasRole('ADMIN')">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pracownicy</a>
+
+    <!-- Opcje dla roli ADMIN -->
+    <block sec:authorize="hasAuthority('ADMIN')">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+          Pracownicy
+        </a>
+        <div class="dropdown-menu sidebar-dropdown" aria-labelledby="submenuDropdown">
+          <a class="dropdown-item" href="/addStaffMember">Dodaj konto</a>
+        </div>
       </li>
     </block>
-
   </ul>
 </div>
 

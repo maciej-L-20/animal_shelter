@@ -8,9 +8,7 @@
   <!-- Dodanie Google Fonts - Open Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
   <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
-  <block sec:authorize="hasAuthority('ADMIN')">
     <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
-  </block>
 </head>
 <body>
 
@@ -25,12 +23,7 @@
     </button>
     <a class="navbar-brand" href="/main">
       <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
-      <th:text sec:authorize="hasAuthority('USER')">
-        Schronisko Przytulne Łapki — panel pracownika
-      </th:text>
-      <th:text sec:authorize="hasAuthority('ADMIN')">
         Schronisko Przytulne Łapki — panel administratora
-      </th:text>
     </a>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
@@ -60,72 +53,96 @@
 <div class="sidebar" id="sidebar">
   <ul class="nav flex-column">
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+      <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
          aria-haspopup="true" aria-expanded="false">
         Zwierzęta
       </a>
-      <div class="dropdown-menu sidebar-dropdown" aria-labelledby="submenuDropdown">
+      <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
         <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
         <a class="dropdown-item" href="/addAnimal">Dodaj</a>
         <a class="dropdown-item" href="#">Adopcje</a>
       </div>
     </li>
-
-    <!-- Opcje dla roli ADMIN -->
-    <block sec:authorize="hasAuthority('ADMIN')">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-          Pracownicy
-        </a>
-        <div class="dropdown-menu sidebar-dropdown" aria-labelledby="submenuDropdown">
-          <a class="dropdown-item" href="/addStaffMember">Dodaj konto</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pracownicy</a>
       </li>
-    </block>
+
   </ul>
 </div>
 
 
 <div class="content">
-  <div class="row">
+  <div class="card" id="search">
+    <div class="card-body">
+      <form method="post" th:action="@{/addStaffMember}" th:object="${addingModel}">
+        <div class="form-header">
+          <h2>Dodaj Pracownika</h2>
+        </div>
 
-      <!-- Nie ma zwierząt spełniających kryteria -->
-      <div th:if="${#lists.isEmpty(animals)}">
-        <div class="container mt-5">
-          <h1 class="text-center">Nie znaleziono zwierząt</h1>
-          <p class="text-center">Niestety, nie znaleziono żadnych zwierząt spełniających kryteria wyszukiwania.</p>
-          <div class="text-center mt-3">
-            <a th:href="@{/search_panel}" class="btn btn-primary">Powrót do formularza</a>
+        <!-- Username and Password -->
+        <div class="form-row">
+          <!-- Username -->
+          <div class="form-group col-md-6">
+            <label for="username">Nazwa użytkownika</label>
+            <input class="form-control" id="username" th:field="*{user.username}" placeholder="Nazwa użytkownika" type="text"/>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group col-md-5">
+            <label for="password">Hasło</label>
+            <input class="form-control mr-1" id="password" th:field="*{user.password}" type="password"/>
           </div>
         </div>
-      </div>
 
-      <!-- Są zwierzęta spełniające kryteria -->
-      <div th:unless="${#lists.isEmpty(animals)}">
-        <div class="container mt-5">
-          <div class="fitted">
-            <h2 class="text-center">Znalezione zwierzęta:</h2>
-          </div>
-          <!-- Lista pasujących zwierząt -->
-          <div class="card-columns">
-            <!-- Pętla wyświetlająca zwierzęta -->
-            <div th:each="animal : ${animals}" class="card">
-              <div class="card-body">
-                <h5 class="card-title" th:text="${animal.name != null} ? ${animal.name} : ''"></h5>
-                <p class="card-text" th:text="${animal.breedAndSpecies.species != null} ? ${'Gatunek: ' + animal.breedAndSpecies.species} : ''"></p>
-                <p class="card-text" th:text="${animal.gender != null} ? ${'Płeć: ' + animal.gender} : ''"></p>
-                <p class="card-text" th:text="${animal.age != null} ? ${'Wiek: ' + animal.age + ' lat(a)'} : ''"></p>
-                <a th:href="@{/animal/{id}(id=${animal.id})}" class="btn btn-primary">
-                  Kliknij aby wyświetlić więcej informacji
-                </a>
-              </div>
+        <!-- Enabled -->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="enabled">Włączony</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <select class="form-control mr-1" id="enabled" th:field="*{user.enabled}">
+                <option value="true">Tak</option>
+                <option value="false">Nie</option>
+              </select>
             </div>
           </div>
         </div>
-      </div>
+
+        <!-- First Name and Last Name -->
+        <div class="form-row">
+          <!-- First Name -->
+          <div class="form-group col-md-6">
+            <label for="firstName">Imię</label>
+            <input class="form-control" id="firstName" th:field="*{user.firstName}" placeholder="Imię" type="text"/>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group col-md-5">
+            <label for="lastName">Nazwisko</label>
+            <input class="form-control" id="lastName" th:field="*{user.lastName}" placeholder="Nazwisko" type="text"/>
+          </div>
+        </div>
+
+        <!-- Birth Date -->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="birthDate">Data urodzenia</label>
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <input id="birthDate" th:field="*{birthDateString}" type="date"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search button -->
+        <span class="input-group-btn">
+          <button class="btn btn-default" title="Dodaj użytkownika" type="submit">
+            Dodaj
+          </button>
+        </span>
+      </form>
     </div>
+  </div>
 </div>
+
 
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -140,6 +157,7 @@
     });
   });
 </script>
+
 
 </body>
 </html>
