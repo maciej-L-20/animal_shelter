@@ -1,9 +1,13 @@
 package bada_shelter.SpringApplication;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -29,13 +33,17 @@ public class AppController implements WebMvcConfigurer {
 
         @RequestMapping("/main")
         public String defaultAfterLogin(HttpServletRequest request) {
-            if (request.isUserInRole("ADMIN") || request.isUserInRole("USER")) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+            if (auth != null && (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))
+                    || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER")))) {
                 return "redirect:/main_staff";
             } else {
-                return "redirect:/login";
+                return "redirect:/index";
             }
         }
-        @RequestMapping(value={"/main_staff"})
+
+        @RequestMapping(value = {"/main_staff"})
         public String showUserPage(Model model) {
             return "staff/main_staff";
         }

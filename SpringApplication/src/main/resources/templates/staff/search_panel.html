@@ -8,14 +8,12 @@
     <!-- Dodanie Google Fonts - Open Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
     <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
-    <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+    <block sec:authorize="hasAuthority('ADMIN')">
         <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
-    </th:block>
-    <style>
-    </style>
+    </block>
 </head>
-
 <body>
+
 <!-- NAWIGACJA -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
@@ -27,10 +25,10 @@
         </button>
         <a class="navbar-brand" href="/main">
             <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
-            <th:text th:if="${#httpServletRequest.isUserInRole('USER')}">
+            <th:text sec:authorize="hasAuthority('USER')">
                 Schronisko Przytulne Łapki — panel pracownika
             </th:text>
-            <th:text th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+            <th:text sec:authorize="hasAuthority('ADMIN')">
                 Schronisko Przytulne Łapki — panel administratora
             </th:text>
         </a>
@@ -58,7 +56,6 @@
         </div>
     </div>
 </nav>
-
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
     <ul class="nav flex-column">
@@ -73,14 +70,15 @@
                 <a class="dropdown-item" href="#">Adopcje</a>
             </div>
         </li>
-        <th:block th:if="${#httpServletRequest.isUserInRole('ADMIN')}">
+        <block sec:authorize="hasRole('ADMIN')">
             <li class="nav-item">
                 <a class="nav-link" href="#">Pracownicy</a>
             </li>
-        </th:block>
+        </block>
 
     </ul>
 </div>
+
 
 <!-- Treść strony -->
 <div class="content">
@@ -161,7 +159,7 @@
                     <div class="form-group col-md-6">
                         <label>Rasa</label>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <select class="form-control mr-1" id="breed" name="breed">
+                            <select class="form-control mr-1" id="breed" name="breed" disabled> <!-- Pole rasy zablokowane -->
                                 <option></option>
                                 <option th:each="breed : ${breeds}" th:text="${breed}" th:value="${breed}">
                                 </option>
@@ -213,6 +211,40 @@
     $(document).ready(function () {
         $("#sidebar-toggle").click(function () {
             $("#sidebar").toggleClass("sidebar-collapsed");
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const speciesDropdown = document.getElementById('species');
+        const breedDropdown = document.getElementById('breed');
+
+        breedDropdown.disabled = true;
+
+        speciesDropdown.addEventListener('change', function() {
+            const selectedSpecies = speciesDropdown.value;
+            breedDropdown.innerHTML = '<option></option>';
+            breedDropdown.disabled = selectedSpecies === '';
+
+            if (selectedSpecies !== '') {
+                fetch(`/getBreedsBySpecies/${selectedSpecies}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const uniqueBreeds = new Set(data); // Utwórz zestaw, który automatycznie usuwa duplikaty
+
+                        // Przed dodaniem opcji do listy, sprawdź czy opcja już nie istnieje
+                        uniqueBreeds.forEach(breed => {
+                            if (!breedDropdown.querySelector(`[value="${breed}"]`)) {
+                                const option = document.createElement('option');
+                                option.value = breed;
+                                option.text = breed;
+                                breedDropdown.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Błąd:', error));
+            }
         });
     });
 </script>

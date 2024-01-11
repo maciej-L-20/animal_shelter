@@ -3,6 +3,7 @@ package bada_shelter.SpringApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +33,14 @@ public class AnimalController {
     public String showAnimalDetailPage(@PathVariable Long id, Model model,HttpServletRequest request) {
         Animal animal = animalRepository.getById(id);
         model.addAttribute("animal", animal);
-        if(request.isUserInRole("ADMIN")||request.isUserInRole("USER")) return "/staff/animal";
-        return "animal";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))
+                || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER")))) {
+            return "staff/animal";
+        } else {
+            return "animal";
+        }
     }
 
     //Metoda obsługująca stronę główną
