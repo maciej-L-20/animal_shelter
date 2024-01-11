@@ -1,21 +1,17 @@
 package bada_shelter.SpringApplication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class AnimalController {
@@ -109,7 +105,7 @@ public class AnimalController {
                             @RequestParam(value = "acceptanceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String acceptanceDate,
                             @RequestParam(value = "description", required = false) String description,
                             @RequestParam(value = "isVaccinated") char isVaccinated,
-                            @RequestParam(value = "isNeutered") char isNeutered) throws ParseException {
+                            @RequestParam(value = "isNeutered") char isNeutered, Model model) throws ParseException {
         Animal animal = new Animal();
         animal.setName(name);
         animal.setAge(age);
@@ -130,8 +126,8 @@ public class AnimalController {
             breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(breed, species);
         }
         animal.setBreedAndSpecies(breedAndSpecies.get(0));
-
+        model.addAttribute("successType", "add");
         animalRepository.save(animal);
-        return "/staff/successful_adding";
+        return "/staff/successful_operation";
     }
 }

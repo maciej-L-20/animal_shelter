@@ -80,13 +80,20 @@
 
 
 
-  <div class="content">
-    <div class="row">
-      <div class="col-md-10 mt-5" id="mess">
-        <p>Zwierzę zostało dodane pomyślnie</p>
+<div class="content">
+  <div class="row">
+    <div class="col-md-10 mt-5" id="mess">
+      <!-- Tekst w zależności od rodzaju operacji -->
+      <p th:if="${successType eq 'add'}">Zwierzę zostało dodane pomyślnie</p>
+      <p th:if="${successType eq 'delete'}">Zwierzę zostało usunięte pomyślnie</p>
+      <div class="text-center mt-3">
+        <!-- Przycisk w zależności od rodzaju operacji -->
+        <a th:if="${successType eq 'add'}" th:href="@{/addAnimal}" class="btn btn-primary">Dodaj kolejne zwierzę</a>
+        <a th:if="${successType eq 'delete'}" th:href="@{/main_staff}" class="btn btn-primary">Powrót do panelu pracownika</a>
       </div>
     </div>
   </div>
+</div>
 
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
