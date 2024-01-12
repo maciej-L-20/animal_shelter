@@ -68,9 +68,9 @@ public class AnimalsForStaffController {
                             @RequestParam(value = "acceptanceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String acceptanceDate,
                             @RequestParam(value = "description", required = false) String description,
                             @RequestParam(value = "isVaccinated") char isVaccinated,
-                            @RequestParam(value = "isNeutered") char isNeutered) throws ParseException {
+                            @RequestParam(value = "isNeutered") char isNeutered, Model model) throws ParseException {
         Animal animal = new Animal();
-        animal.setName(name);
+        animal.setName(formatText(name));
         animal.setAge(age);
         animal.setMass(mass);
         animal.setGender(gender);
@@ -81,18 +81,18 @@ public class AnimalsForStaffController {
         animal.setAcceptanceDate(dateFormat.parse(acceptanceDate));
         List<BreedAndSpecies> breedAndSpecies;
         if(breed == "") breedAndSpecies = breedAndSpeciesRepository.findBySpecies(species);
-        else breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(breed,species);
+        else breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(formatText(breed),species);
         if(breedAndSpecies.isEmpty()) {
             BreedAndSpecies addedBreedAndSpecies = new BreedAndSpecies();
             addedBreedAndSpecies.setSpecies(species);
-            addedBreedAndSpecies.setBreed(breed);
+            addedBreedAndSpecies.setBreed(formatText(breed));
             breedAndSpeciesRepository.save(addedBreedAndSpecies);
-            breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(breed, species);
+            breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(formatText(breed), species);
         }
         animal.setBreedAndSpecies(breedAndSpecies.get(0));
-
+        model.addAttribute("successType", "add");
         animalRepository.save(animal);
-        return "/staff/successful_adding";
+        return "/staff/successful_operation";
     }
     @GetMapping("/search_panel")
     public String showSearchPanel(Model model){
@@ -115,5 +115,8 @@ public class AnimalsForStaffController {
         animalRepository.deleteById(id);
         model.addAttribute("successType", "delete");
         return "/staff/successful_operation";
+    }
+    public static String formatText(String text) {
+        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }
 }
