@@ -1,148 +1,180 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"/>
-  <link href="/images/logo_icon.png" rel="icon" type="image/x-icon">
-  <title>Panel pracownika | Schronisko Przytulne Łapki - strona pracownicza</title>
-  <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
-  <!-- Dodanie Google Fonts - Open Sans -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
-  <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
-    <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
+    <meta charset="UTF-8"/>
+    <link href="/images/logo_icon.png" rel="icon" type="image/x-icon">
+    <title>Panel pracownika | Schronisko Przytulne Łapki - strona pracownicza</title>
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+    <!-- Dodanie Google Fonts - Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
+    <link href="../static/css/admin_styles.css" rel="stylesheet" th:href="@{/css/admin_styles.css}"/>
 </head>
 <body>
 
 <!-- NAWIGACJA -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-  <div class="container">
-    <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
-            class="navbar-toggler"
-            data-target="#navbarResponsive"
-            data-toggle="collapse" id="sidebar-toggle" type="button">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/main">
-      <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
-        Schronisko Przytulne Łapki — panel administratora
-    </a>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/index}">Strona główna</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
-             data-toggle="dropdown" href="#"
-             id="userDropdown" role="button" style="color: lightskyblue;">
-            Zalogowano jako: <b style="text-transform: capitalize;"
-                                th:text="${#httpServletRequest.remoteUser}"></b>
-          </a>
-          <div aria-labelledby="userDropdown" class="dropdown-menu">
-            <form method="post" th:action="@{/index}">
-              <button class="dropdown-item" onclick="successfullyLogout()" type="submit" value="Sign Out">
-                Wyloguj
-              </button>
-            </form>
-          </div>
-        </li>
-      </ul>
+    <div class="container">
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-target="#navbarResponsive"
+                data-toggle="collapse" id="sidebar-toggle" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/main">
+            <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
+            Schronisko Przytulne Łapki — panel administratora
+        </a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" href="#"
+                       id="userDropdown" role="button" style="color: lightskyblue;">
+                        Zalogowano jako: <b style="text-transform: capitalize;"
+                                            th:text="${#httpServletRequest.remoteUser}"></b>
+                    </a>
+                    <div aria-labelledby="userDropdown" class="dropdown-menu">
+                        <form method="post" th:action="@{/index}">
+                            <button class="dropdown-item" onclick="successfullyLogout()" type="submit" value="Sign Out">
+                                Wyloguj
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-  <ul class="nav flex-column">
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="submenuDropdown" role="button" data-toggle="dropdown"
-         aria-haspopup="true" aria-expanded="false">
-        Zwierzęta
-      </a>
-      <div class="dropdown-menu" id="sidebar-dropdown" aria-labelledby="submenuDropdown">
-        <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
-        <a class="dropdown-item" href="/addAnimal">Dodaj</a>
-        <a class="dropdown-item" href="#">Adopcje</a>
-      </div>
-    </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pracownicy</a>
-      </li>
+    <ul class="nav flex-column">
+        <li class="nav-item dropdown">
+            <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+               href="#" role="button">
+                Zwierzęta
+            </a>
+            <div aria-labelledby="submenuDropdown" class="dropdown-menu sidebar-dropdown">
+                <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
+                <a class="dropdown-item" href="/addAnimal">Dodaj</a>
+                <a class="dropdown-item" href="#">Adopcje</a>
+            </div>
+        </li>
 
-  </ul>
+        <!-- Opcje dla roli ADMIN -->
+        <block sec:authorize="hasAuthority('ADMIN')">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#" role="button">
+                    Pracownicy
+                </a>
+                <div aria-labelledby="submenuDropdown" class="dropdown-menu sidebar-dropdown">
+                    <a class="dropdown-item" href="/addStaffMember">Dodaj konto</a>
+                </div>
+            </li>
+        </block>
+    </ul>
 </div>
 
 
 <div class="content">
-  <div class="card" id="search">
-    <div class="card-body">
-      <form method="post" th:action="@{/addStaffMember}" th:object="${addingModel}">
-        <div class="form-header">
-          <h2>Dodaj Pracownika</h2>
-        </div>
+    <div class="card" id="search">
+        <div class="card-body">
+            <form method="post" th:action="@{/addStaffMember}" th:object="${addingModel}">
+                <div class="form-header">
+                    <h2>Dodaj Pracownika</h2>
+                </div>
 
-        <!-- Username and Password -->
-        <div class="form-row">
-          <!-- Username -->
-          <div class="form-group col-md-6">
-            <label for="username">Nazwa użytkownika</label>
-            <input class="form-control" id="username" th:field="*{user.username}" placeholder="Nazwa użytkownika" type="text"/>
-          </div>
+                <!-- Username and Password -->
+                <div class="form-row">
+                    <!-- Username -->
+                    <div class="form-group col-md-6">
+                        <label for="username">Nazwa użytkownika</label>
+                        <input class="form-control" id="username" placeholder="Nazwa użytkownika"
+                               th:field="*{user.username}" type="text"/>
+                    </div>
 
-          <!-- Password -->
-          <div class="form-group col-md-5">
-            <label for="password">Hasło</label>
-            <input class="form-control mr-1" id="password" th:field="*{user.password}" type="password"/>
-          </div>
-        </div>
+                    <!-- Password -->
+                    <div class="form-group col-md-5">
+                        <label for="password">Hasło</label>
+                        <input class="form-control mr-1" id="password" th:field="*{user.password}" type="password"/>
+                    </div>
+                </div>
 
-        <!-- Enabled -->
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="enabled">Włączony</label>
-            <div class="d-flex flex-row justify-content-between align-items-center">
-              <select class="form-control mr-1" id="enabled" th:field="*{user.enabled}">
-                <option value="true">Tak</option>
-                <option value="false">Nie</option>
-              </select>
-            </div>
-          </div>
-        </div>
+                <!-- Enabled -->
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="enabled">Włączony</label>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <select class="form-control mr-1" id="enabled" th:field="*{user.enabled}">
+                                <option value="true">Tak</option>
+                                <option value="false">Nie</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- First Name and Last Name -->
-        <div class="form-row">
-          <!-- First Name -->
-          <div class="form-group col-md-6">
-            <label for="firstName">Imię</label>
-            <input class="form-control" id="firstName" th:field="*{user.firstName}" placeholder="Imię" type="text"/>
-          </div>
+                <!-- First Name and Last Name -->
+                <div class="form-row">
+                    <!-- First Name -->
+                    <div class="form-group col-md-5">
+                        <label for="firstName">Imię</label>
+                        <input class="form-control" id="firstName" placeholder="Imię" th:field="*{user.firstName}"
+                               type="text"/>
+                    </div>
 
-          <!-- Last Name -->
-          <div class="form-group col-md-5">
-            <label for="lastName">Nazwisko</label>
-            <input class="form-control" id="lastName" th:field="*{user.lastName}" placeholder="Nazwisko" type="text"/>
-          </div>
-        </div>
+                    <!-- Last Name -->
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Nazwisko</label>
+                        <input class="form-control" id="lastName" placeholder="Nazwisko" th:field="*{user.lastName}"
+                               type="text"/>
+                    </div>
+                </div>
 
-        <!-- Birth Date -->
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="birthDate">Data urodzenia</label>
-            <div class="d-flex flex-row justify-content-between align-items-center">
-              <input id="birthDate" th:field="*{birthDateString}" type="date"/>
-            </div>
-          </div>
-        </div>
+                <!-- Birth Date -->
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="birthDate">Data urodzenia</label>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <input id="birthDate" th:field="*{birthDateString}" type="date"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-7">
+                        <label for="role">Rola</label>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <select class="form-control mr-1" id="role" th:field="*{authority.authority}">
+                                <option value="USER">Pracownik</option>
+                                <option value="ADMIN">Administrator</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Search button -->
-        <span class="input-group-btn">
+                <!-- Pesel -->
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="pesel">PESEL</label>
+                        <input class="form-control" id="pesel" th:field="*{user.pesel}" placeholder="Pesel" type="text"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="address">Adres</label>
+                        <input class="form-control" id="address" th:field="*{user.address}" placeholder="Adres" type="text"/>
+                    </div>
+                </div>
+
+                <!-- Search button -->
+                <span class="input-group-btn">
           <button class="btn btn-default" title="Dodaj użytkownika" type="submit">
             Dodaj
           </button>
         </span>
-      </form>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
-
 
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -151,11 +183,11 @@
 <script th:src="@{/js/script.js}"></script>
 
 <script>
-  $(document).ready(function () {
-    $("#sidebar-toggle").click(function () {
-      $("#sidebar").toggleClass("sidebar-collapsed");
+    $(document).ready(function () {
+        $("#sidebar-toggle").click(function () {
+            $("#sidebar").toggleClass("sidebar-collapsed");
+        });
     });
-  });
 </script>
 
 

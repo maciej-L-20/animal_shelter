@@ -26,6 +26,9 @@ public class User {
     private String lastName;
     @Column(name = "data_urodzenia")
     private Date birthDate;
-
+    @Column(name = "pesel")
+    private String pesel;
+    @Column(name = "adres")
+    private String address;
     // Getters and setters
 }

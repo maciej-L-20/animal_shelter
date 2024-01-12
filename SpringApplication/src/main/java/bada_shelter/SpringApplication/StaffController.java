@@ -1,6 +1,9 @@
 package bada_shelter.SpringApplication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +23,6 @@ import java.util.stream.Collectors;
 public class StaffController {
     private UserRepository userRepository;
     private AuthorityRepository authorityRepository;
-
     @Autowired
     public StaffController(UserRepository userRepository,AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
@@ -36,13 +38,19 @@ public class StaffController {
 
     //TODO:OGARNĄC ROLE
     @PostMapping("/addStaffMember")
-    public String addStaffMember(@ModelAttribute("addingModel") UserAddingModel userAddingModel) throws ParseException {
+    public String addStaffMember(Model model, @ModelAttribute("addingModel") UserAddingModel userAddingModel) throws ParseException {
         User addedUser = userAddingModel.getUser();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        addedUser.setPassword(encoder.encode(addedUser.getPassword()));
+        Authority addedAuthority = userAddingModel.getAuthority();
+        addedAuthority.setUser(addedUser);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date parsed = format.parse(userAddingModel.birthDateString);
         addedUser.setBirthDate(parsed);
         userRepository.save(addedUser);
-        return "staff/successful_adding";
+        authorityRepository.save(addedAuthority);
+        model.addAttribute("successType","addUser");
+        return "staff/successful_operation";
     }
 
 }
