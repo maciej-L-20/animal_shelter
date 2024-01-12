@@ -60,11 +60,11 @@
 <div class="sidebar" id="sidebar">
   <ul class="nav flex-column">
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-         aria-haspopup="true" aria-expanded="false">
+      <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+         href="#" role="button">
         Zwierzęta
       </a>
-      <div class="dropdown-menu sidebar-dropdown" aria-labelledby="submenuDropdown">
+      <div aria-labelledby="submenuDropdown" class="dropdown-menu sidebar-dropdown">
         <a class="dropdown-item" href="/search_panel">Wyszukaj</a>
         <a class="dropdown-item" href="/addAnimal">Dodaj</a>
         <a class="dropdown-item" href="#">Adopcje</a>
@@ -74,18 +74,18 @@
     <!-- Opcje dla roli ADMIN -->
     <block sec:authorize="hasAuthority('ADMIN')">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           href="#" role="button">
           Pracownicy
         </a>
-        <div class="dropdown-menu sidebar-dropdown" aria-labelledby="submenuDropdown">
-          <a class="dropdown-item" href="/addStaffMember">Dodaj konto</a>
+        <div aria-labelledby="submenuDropdown" class="dropdown-menu sidebar-dropdown">
+          <a class="dropdown-item" href="/addStaffMember">Dodaj pracownika</a>
+          <a class="dropdown-item" href="/searchUsersPanel">Wyszukaj pracownika</a>
         </div>
       </li>
     </block>
   </ul>
 </div>
-
 <div class="content">
   <div class="row">
     <div class="col-md-10 mt-5">

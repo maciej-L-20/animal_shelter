@@ -18,7 +18,14 @@ public class Authority {
     @JoinColumn(name="nazwa_uzytkownika")
     private User user;
     @Column(name="uprawnienie")
-    private String authority;
+    private String authorityName;
 
+    public String getAuthorityName() {
+        return authorityName;
+    }
+
+    public void setAuthorityName(String authorityName) {
+        this.authorityName = authorityName;
+    }
 }
 

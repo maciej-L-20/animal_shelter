@@ -1,32 +1,27 @@
 package bada_shelter.SpringApplication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Controller
 public class StaffController {
+    private AuthorityService authorityService;
     private UserRepository userRepository;
     private AuthorityRepository authorityRepository;
     @Autowired
-    public StaffController(UserRepository userRepository,AuthorityRepository authorityRepository) {
+    public StaffController(UserRepository userRepository,AuthorityRepository authorityRepository,AuthorityService authorityService) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
+        this.authorityService = authorityService;
     }
 
     @GetMapping("/addStaffMember")
@@ -35,8 +30,6 @@ public class StaffController {
         model.addAttribute("addingModel",userAddingModel);
         return "/staff/admin/add_user_panel";
     }
-
-    //TODO:OGARNĄC ROLE
     @PostMapping("/addStaffMember")
     public String addStaffMember(Model model, @ModelAttribute("addingModel") UserAddingModel userAddingModel) throws ParseException {
         User addedUser = userAddingModel.getUser();
@@ -51,6 +44,31 @@ public class StaffController {
         authorityRepository.save(addedAuthority);
         model.addAttribute("successType","addUser");
         return "staff/successful_operation";
+    }
+    //TODO:TO BE IMPROVED
+    @GetMapping("/searchUsers")
+    public String searchUser(Model model,
+                             @RequestParam(name = "username", required = false) String username,
+                             @RequestParam(name = "firstName", required = false) String firstName,
+                             @RequestParam(name = "lastname", required = false) String lastname,
+                             @RequestParam(name = "pesel", required = false) String pesel){
+
+        List<User> foundUsers = userRepository.searchUser(firstName, lastname, username, pesel);
+        authorityService.assignCurrentAuthorties(foundUsers);
+        model.addAttribute("foundUsers",foundUsers);
+        return "/staff/admin/searchUserResult";
+    }
+    @GetMapping("/searchUsersPanel")
+    public String showSearchUserPanel(Model model){
+        return "/staff/admin/search_user";
+    }
+
+    @GetMapping("/userPage/{username}")
+    public String showUserInfoPage(@PathVariable String username, Model model){
+        User user = userRepository.findUserByUsername(username);
+        authorityService.assignCurrentAuthority(user);
+        model.addAttribute("user",user);
+        return "/staff/admin/userPage";
     }
 
 }

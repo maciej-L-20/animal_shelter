@@ -31,4 +31,5 @@ public class User {
     @Column(name = "adres")
     private String address;
     // Getters and setters
+    private String currentAuthority;
 }

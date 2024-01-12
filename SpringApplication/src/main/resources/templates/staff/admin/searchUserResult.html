@@ -87,44 +87,44 @@
   </ul>
 </div>
 
+
 <div class="content">
   <div class="row">
 
-      <!-- Nie ma zwierząt spełniających kryteria -->
-      <div th:if="${#lists.isEmpty(animals)}">
-        <div class="container mt-5">
-          <h1 class="text-center">Nie znaleziono zwierząt</h1>
-          <p class="text-center">Niestety, nie znaleziono żadnych zwierząt spełniających kryteria wyszukiwania.</p>
-          <div class="text-center mt-3">
-            <a th:href="@{/search_panel}" class="btn btn-primary">Powrót do formularza</a>
-          </div>
+    <!-- Nie ma zwierząt spełniających kryteria -->
+    <div th:if="${#lists.isEmpty(foundUsers)}">
+      <div class="container mt-5">
+        <h1 class="text-center">Nie znaleziono pracowników</h1>
+        <p class="text-center">Niestety, nie znaleziono żadnych pracowników spełniających kryteria wyszukiwania.</p>
+        <div class="text-center mt-3">
+          <a th:href="@{/search_user}" class="btn btn-primary">Powrót do formularza</a>
         </div>
       </div>
+    </div>
 
-      <!-- Są zwierzęta spełniające kryteria -->
-      <div th:unless="${#lists.isEmpty(animals)}">
-        <div class="container mt-5">
-          <div class="fitted">
-            <h2 class="text-center">Znalezione zwierzęta:</h2>
-          </div>
-          <!-- Lista pasujących zwierząt -->
-          <div class="card-columns">
-            <!-- Pętla wyświetlająca zwierzęta -->
-            <div th:each="animal : ${animals}" class="card">
-              <div class="card-body">
-                <h5 class="card-title" th:text="${animal.name != null} ? ${animal.name} : ''"></h5>
-                <p class="card-text" th:text="${animal.breedAndSpecies.species != null} ? ${'Gatunek: ' + animal.breedAndSpecies.species} : ''"></p>
-                <p class="card-text" th:text="${animal.gender != null} ? ${'Płeć: ' + animal.gender} : ''"></p>
-                <p class="card-text" th:text="${animal.age != null} ? ${'Wiek: ' + animal.age + ' lat(a)'} : ''"></p>
-                <a th:href="@{/animal/{id}(id=${animal.id})}" class="btn btn-primary">
-                  Kliknij aby wyświetlić więcej informacji
-                </a>
-              </div>
+    <!-- Są zwierzęta spełniające kryteria -->
+    <div th:unless="${#lists.isEmpty(foundUsers)}">
+      <div class="container mt-5">
+        <div class="fitted">
+          <h2 class="text-center">Znalezieni pracownicy:</h2>
+        </div>
+        <!-- Lista pasujących zwierząt -->
+        <div class="card-columns">
+          <!-- Pętla wyświetlająca zwierzęta -->
+          <div th:each="user : ${foundUsers}" class="card">
+            <div class="card-body">
+              <h5 class="card-title" th:text="${user.username != null} ? ${user.username} : ''"></h5>
+              <p class="card-text" th:text="${user.firstName != null} ? ${'Imię: ' + user.firstName} : ''"></p>
+              <p class="card-text" th:text="${user.lastName != null} ? ${'Nazwisko: ' + user.lastName} : ''"></p>
+              <a th:href="@{/userPage/{username}(username=${user.username})}" class="btn btn-primary">
+                Kliknij aby wyświetlić więcej informacji
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </div>
 
 

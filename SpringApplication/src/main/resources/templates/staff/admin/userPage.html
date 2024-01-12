@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
-  <link href="/images/logo_icon.png" rel="icon" type="image/x-icon">
   <title>Panel pracownika | Schronisko Przytulne Łapki - strona pracownicza</title>
-  <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
   <!-- Dodanie Google Fonts - Open Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
-  <link href="../static/css/staff_styles.css" rel="stylesheet" th:href="@{/css/staff_styles.css}"/>
+  <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+  <link href="../static/css/staff_styles.css" th:href="@{/css/staff_styles.css}" rel="stylesheet" />
   <block sec:authorize="hasAuthority('ADMIN')">
     <link href="../static/css/admin_styles.css" th:href="@{/css/admin_styles.css}" rel="stylesheet" />
   </block>
@@ -86,57 +86,68 @@
     </block>
   </ul>
 </div>
-
 <div class="content">
   <div class="row">
+    <div class="col-md-10 mt-5">
+      <div class="animal-details-container">
+        <h1>Informacje o pracowniku
+          <p th:text="${user.username != null} ? ${user.username} : ''"></p>
+        </h1>
 
-      <!-- Nie ma zwierząt spełniających kryteria -->
-      <div th:if="${#lists.isEmpty(animals)}">
-        <div class="container mt-5">
-          <h1 class="text-center">Nie znaleziono zwierząt</h1>
-          <p class="text-center">Niestety, nie znaleziono żadnych zwierząt spełniających kryteria wyszukiwania.</p>
-          <div class="text-center mt-3">
-            <a th:href="@{/search_panel}" class="btn btn-primary">Powrót do formularza</a>
+        <!-- Informacje o zwierzęciu -->
+        <div class="d-flex align-items-start">
+          <div style="text-align: left;">
+            <div class="ml-3">
+              <p th:text="${user.firstName != null} ? ${'Imię: ' + user.firstName} : ''"></p>
+              <p th:text="${user.lastName != null} ? ${'Nazwisko: ' + user.lastName} : ''"></p>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Są zwierzęta spełniające kryteria -->
-      <div th:unless="${#lists.isEmpty(animals)}">
-        <div class="container mt-5">
-          <div class="fitted">
-            <h2 class="text-center">Znalezione zwierzęta:</h2>
-          </div>
-          <!-- Lista pasujących zwierząt -->
-          <div class="card-columns">
-            <!-- Pętla wyświetlająca zwierzęta -->
-            <div th:each="animal : ${animals}" class="card">
-              <div class="card-body">
-                <h5 class="card-title" th:text="${animal.name != null} ? ${animal.name} : ''"></h5>
-                <p class="card-text" th:text="${animal.breedAndSpecies.species != null} ? ${'Gatunek: ' + animal.breedAndSpecies.species} : ''"></p>
-                <p class="card-text" th:text="${animal.gender != null} ? ${'Płeć: ' + animal.gender} : ''"></p>
-                <p class="card-text" th:text="${animal.age != null} ? ${'Wiek: ' + animal.age + ' lat(a)'} : ''"></p>
-                <a th:href="@{/animal/{id}(id=${animal.id})}" class="btn btn-primary">
-                  Kliknij aby wyświetlić więcej informacji
-                </a>
-              </div>
+          <div style="text-align: left;">
+            <div class="ml-5">
+              <details>
+                <summary>Szczegóły</summary>
+                <div><br></div>
+                <p th:text="${user.currentAuthority != null} ? ${'Uprawnienia: ' + user.currentAuthority} : ''"></p>
+                <p th:text="${user.address != null} ? ${'Adres: ' + user.address} : ''"></p>
+                <p th:text="${user.pesel != null} ? ${'Pesel: ' + user.pesel} : ''"></p>
+                <p th:text="${user.getBirthDate().toString() != null} ? ${'Data Urodzenia: ' + user.getBirthDate().toString()} : ''"></p>
+              </details>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+  </div>
 </div>
 
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/css/js/js/script.js}"></script>
 
 <script>
-  $(document).ready(function () {
-    $("#sidebar-toggle").click(function () {
-      $("#sidebar").toggleClass("sidebar-collapsed");
+  $(document).ready(function() {
+
+    let isDeleted = false;
+
+    $('#deleteButton').click(function() {
+      $('#confirmationDialog').show();
+    });
+
+    $('#confirmDelete').click(function() {
+      $('#confirmationDialog').hide();
+
+      if (!isDeleted) {
+        document.getElementById('deleteForm').submit();
+        isDeleted = true;
+      }
+    });
+
+    $('#cancelDelete').click(function() {
+      $('#confirmationDialog').hide();
     });
   });
 </script>
