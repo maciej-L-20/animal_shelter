@@ -52,6 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/addAnimal").authenticated()
                 .antMatchers("/main_staff").authenticated()
                 .antMatchers("/searchAnimals").authenticated()
+                .antMatchers("/changePassword").authenticated()
                 .antMatchers("/addStaffMember").hasAuthority("ADMIN")
                 .antMatchers("/searchUsersPanel").hasAuthority("ADMIN")
                 .antMatchers("/searchUsers").hasAuthority("ADMIN")

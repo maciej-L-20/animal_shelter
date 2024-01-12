@@ -95,6 +95,7 @@
       <p th:if="${successType eq 'addAnimal'}">Zwierzę zostało dodane pomyślnie</p>
       <p th:if="${successType eq 'deleteAnimal'}">Zwierzę zostało usunięte pomyślnie</p>
       <p th:if="${successType eq 'addUser'}">Pracownik został dodany pomyślnie</p>
+      <p th:if="${successType eq 'changePassword'}">Hasło zostało pomyślnie zmienione</p>
       <div class="text-center mt-3">
         <!-- Przycisk w zależności od rodzaju operacji -->
         <a th:if="${successType eq 'addAnimal'}" th:href="@{/addAnimal}" class="btn btn-primary">Dodaj kolejne zwierzę</a>

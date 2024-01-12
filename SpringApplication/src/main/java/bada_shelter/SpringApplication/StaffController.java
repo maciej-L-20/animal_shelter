@@ -1,11 +1,14 @@
 package bada_shelter.SpringApplication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,5 +73,28 @@ public class StaffController {
         model.addAttribute("user",user);
         return "/staff/admin/userPage";
     }
+    @GetMapping("/changePassword")
+    public String showChangePasswordPanel(Model model){
+        return "/staff/changePassword";
+    }
+    @PostMapping("/changePassword")
+    public String changePassword(HttpServletRequest request, Model model,
+                                 @RequestParam("oldPassword") String oldPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("confirmPassword") String confirmPassword) {
+        if(!newPassword.equals(confirmPassword)) return "redirect:/changePassword?errorMatchingPassword";
+        String username = request.getRemoteUser();
+        User user = userRepository.findUserByUsername(username);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(oldPassword, user.getPassword())) {
+            return "redirect:/changePassword?errorOldPassword";
+        }
+        String newPasswordHash = encoder.encode(newPassword);
+        user.setPassword(newPasswordHash);
+        userRepository.save(user);
+        model.addAttribute("successType", "changePassword");
+        return "/staff/successful_operation";
+    }
+
 
 }
