@@ -196,3 +196,7 @@ body {
     border-radius: 5px;
     margin-right: 20px; /* Dodaj odstęp od prawej strony */
 }
+.content {
+    margin-left: 50px; /* Adjust margin to fit sidebar width */
+    padding: 15px;
+}
