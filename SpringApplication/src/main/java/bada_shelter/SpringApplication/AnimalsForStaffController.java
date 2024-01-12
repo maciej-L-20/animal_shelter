@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -56,7 +59,7 @@ public class AnimalsForStaffController {
     }
 
     @PostMapping("/addAnimal")
-    public String addAnimal(Model model, @RequestParam(name = "name", required = false) String name,
+    public String addAnimal(HttpServletRequest request, @RequestParam(name = "name", required = false) String name,
                             @RequestParam(name = "age") Integer age,
                             @RequestParam(name = "mass") Integer mass,
                             @RequestParam(name = "gender") String gender,
@@ -65,9 +68,9 @@ public class AnimalsForStaffController {
                             @RequestParam(value = "acceptanceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String acceptanceDate,
                             @RequestParam(value = "description", required = false) String description,
                             @RequestParam(value = "isVaccinated") char isVaccinated,
-                            @RequestParam(value = "isNeutered") char isNeutered) throws ParseException {
+                            @RequestParam(value = "isNeutered") char isNeutered, Model model) throws ParseException {
         Animal animal = new Animal();
-        animal.setName(name);
+        animal.setName(formatText(name));
         animal.setAge(age);
         animal.setMass(mass);
         animal.setGender(gender);
@@ -78,18 +81,17 @@ public class AnimalsForStaffController {
         animal.setAcceptanceDate(dateFormat.parse(acceptanceDate));
         List<BreedAndSpecies> breedAndSpecies;
         if(breed == "") breedAndSpecies = breedAndSpeciesRepository.findBySpecies(species);
-        else breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(breed,species);
+        else breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(formatText(breed),species);
         if(breedAndSpecies.isEmpty()) {
             BreedAndSpecies addedBreedAndSpecies = new BreedAndSpecies();
             addedBreedAndSpecies.setSpecies(species);
-            addedBreedAndSpecies.setBreed(breed);
+            addedBreedAndSpecies.setBreed(formatText(breed));
             breedAndSpeciesRepository.save(addedBreedAndSpecies);
-            breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(breed, species);
+            breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(formatText(breed), species);
         }
         animal.setBreedAndSpecies(breedAndSpecies.get(0));
-
+        model.addAttribute("successType", "addAnimal");
         animalRepository.save(animal);
-        model.addAttribute("successType","addAnimal");
         return "/staff/successful_operation";
     }
     @GetMapping("/search_panel")
@@ -108,10 +110,13 @@ public class AnimalsForStaffController {
         model.addAttribute("added",added);
         return "/staff/add_panel";
     }
-    @PostMapping ("/animal/{id}")
+    @PostMapping("/animal/{id}")
     public String deleteAnimal(@PathVariable Long id, Model model) {
         animalRepository.deleteById(id);
         model.addAttribute("successType", "deleteAnimal");
         return "/staff/successful_operation";
+    }
+    public static String formatText(String text) {
+        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }
 }

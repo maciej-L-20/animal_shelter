@@ -220,6 +220,8 @@
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/script.js}"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -245,10 +247,11 @@
                 fetch(`/getBreedsBySpecies/${selectedSpecies}`)
                     .then(response => response.json())
                     .then(data => {
-                        const uniqueBreeds = new Set(data); // Utwórz zestaw, który automatycznie usuwa duplikaty
+                        const uniqueBreeds = Array.from(new Set(data)); // tablica z unikalnymi rasami
+                        const sortedBreeds = uniqueBreeds.sort(); // sortowanie ras alfabetycznie
 
-                        // Przed dodaniem opcji do listy, sprawdź czy opcja już nie istnieje
-                        uniqueBreeds.forEach(breed => {
+                        // Przed dodaniem opcji do listy sprawdzenie czy opcja już nie istnieje
+                        sortedBreeds.forEach(breed => {
                             if (!breedDropdown.querySelector(`[value="${breed}"]`)) {
                                 const option = document.createElement('option');
                                 option.value = breed;
@@ -259,6 +262,15 @@
                     })
                     .catch(error => console.error('Błąd:', error));
             }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#breed").select2({
+            tags: true, // Pozwala na dodawanie nowych tagów
+            tokenSeparators: [',', ' '], // Separator do dodawania nowych tagów
         });
     });
 </script>
