@@ -53,10 +53,10 @@ public class StaffController {
     public String searchUser(Model model,
                              @RequestParam(name = "username", required = false) String username,
                              @RequestParam(name = "firstName", required = false) String firstName,
-                             @RequestParam(name = "lastname", required = false) String lastname,
+                             @RequestParam(name = "lastName", required = false) String lastName,
                              @RequestParam(name = "pesel", required = false) String pesel){
 
-        List<User> foundUsers = userRepository.searchUser(firstName, lastname, username, pesel);
+        List<User> foundUsers = userRepository.searchUser(firstName, lastName, username, pesel);
         authorityService.assignCurrentAuthorties(foundUsers);
         model.addAttribute("foundUsers",foundUsers);
         return "/staff/admin/searchUserResult";

@@ -1,6 +1,7 @@
 package bada_shelter.SpringApplication;
 
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,6 @@ public class User {
     private String pesel;
     @Column(name = "adres")
     private String address;
-    // Getters and setters
+    @Transient
     private String currentAuthority;
 }

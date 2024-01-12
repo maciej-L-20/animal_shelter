@@ -23,7 +23,12 @@
         </button>
         <a class="navbar-brand" href="/main">
             <img alt="Logo" class="logo" th:src="@{/images/logo_icon.png}"/>
-            Schronisko Przytulne Łapki — panel administratora
+            <th:text sec:authorize="hasAuthority('USER')">
+                Schronisko Przytulne Łapki — panel pracownika
+            </th:text>
+            <th:text sec:authorize="hasAuthority('ADMIN')">
+                Schronisko Przytulne Łapki — panel administratora
+            </th:text>
         </a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
@@ -43,6 +48,7 @@
                                 Wyloguj
                             </button>
                         </form>
+                        <a th:href="@{/changePassword}" class="dropdown-item">Zmień hasło</a>
                     </div>
                 </li>
             </ul>
