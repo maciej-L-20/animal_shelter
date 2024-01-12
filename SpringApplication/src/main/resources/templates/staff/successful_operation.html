@@ -91,12 +91,14 @@
   <div class="row">
     <div class="col-md-10 mt-5" id="mess">
       <!-- Tekst w zależności od rodzaju operacji -->
-      <p th:if="${successType eq 'add'}">Zwierzę zostało dodane pomyślnie</p>
-      <p th:if="${successType eq 'delete'}">Zwierzę zostało usunięte pomyślnie</p>
+      <p th:if="${successType eq 'addAnimal'}">Zwierzę zostało dodane pomyślnie</p>
+      <p th:if="${successType eq 'deleteAnimal'}">Zwierzę zostało usunięte pomyślnie</p>
+      <p th:if="${successType eq 'addUser'}">Pracownik został dodany pomyślnie</p>
       <div class="text-center mt-3">
         <!-- Przycisk w zależności od rodzaju operacji -->
-        <a th:if="${successType eq 'add'}" th:href="@{/addAnimal}" class="btn btn-primary">Dodaj kolejne zwierzę</a>
-        <a th:if="${successType eq 'delete'}" th:href="@{/main_staff}" class="btn btn-primary">Powrót do panelu pracownika</a>
+        <a th:if="${successType eq 'addAnimal'}" th:href="@{/addAnimal}" class="btn btn-primary">Dodaj kolejne zwierzę</a>
+        <a th:if="${successType eq 'deleteAnimal'}" th:href="@{/main_staff}" class="btn btn-primary">Powrót do panelu pracownika</a>
+        <a th:if="${successType eq 'addUser'}" th:href="@{/addStaffMember}" class="btn btn-primary">Dodaj kolejnego pracownika</a>
       </div>
     </div>
   </div>

@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -59,7 +56,7 @@ public class AnimalsForStaffController {
     }
 
     @PostMapping("/addAnimal")
-    public String addAnimal(HttpServletRequest request, @RequestParam(name = "name", required = false) String name,
+    public String addAnimal(Model model, @RequestParam(name = "name", required = false) String name,
                             @RequestParam(name = "age") Integer age,
                             @RequestParam(name = "mass") Integer mass,
                             @RequestParam(name = "gender") String gender,
@@ -92,7 +89,8 @@ public class AnimalsForStaffController {
         animal.setBreedAndSpecies(breedAndSpecies.get(0));
 
         animalRepository.save(animal);
-        return "/staff/successful_adding";
+        model.addAttribute("successType","addAnimal");
+        return "/staff/successful_operation";
     }
     @GetMapping("/search_panel")
     public String showSearchPanel(Model model){
@@ -110,10 +108,10 @@ public class AnimalsForStaffController {
         model.addAttribute("added",added);
         return "/staff/add_panel";
     }
-    @PostMapping("/animal/{id}")
+    @PostMapping ("/animal/{id}")
     public String deleteAnimal(@PathVariable Long id, Model model) {
         animalRepository.deleteById(id);
-        model.addAttribute("successType", "delete");
+        model.addAttribute("successType", "deleteAnimal");
         return "/staff/successful_operation";
     }
 }
