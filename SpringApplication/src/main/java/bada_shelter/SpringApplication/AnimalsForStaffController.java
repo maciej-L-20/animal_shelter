@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -60,6 +61,7 @@ public class AnimalsForStaffController {
     @PostMapping("/addAnimal")
     public String addAnimal(HttpServletRequest request, @RequestParam(name = "name", required = false) String name,
                             @RequestParam(name = "age") Integer age,
+                            @RequestParam(name = "mass") Integer mass,
                             @RequestParam(name = "gender") String gender,
                             @RequestParam(name = "species") String species,
                             @RequestParam(name = "breed",required = false) String breed,
@@ -70,6 +72,7 @@ public class AnimalsForStaffController {
         Animal animal = new Animal();
         animal.setName(name);
         animal.setAge(age);
+        animal.setMass(mass);
         animal.setGender(gender);
         animal.setDescription(description);
         animal.setIsNeutered(isNeutered);
@@ -106,5 +109,11 @@ public class AnimalsForStaffController {
         Animal added = new Animal();
         model.addAttribute("added",added);
         return "/staff/add_panel";
+    }
+    @PostMapping("/animal/{id}")
+    public String deleteAnimal(@PathVariable Long id, Model model) {
+        animalRepository.deleteById(id);
+        model.addAttribute("successType", "delete");
+        return "/staff/successful_operation";
     }
 }

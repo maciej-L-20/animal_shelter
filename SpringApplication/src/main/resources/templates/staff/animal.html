@@ -121,6 +121,26 @@
           </div>
         </div>
       </div>
+      <!-- Przycisk "Usuń" dla administratora -->
+      <div style="margin-top: 20px; text-align: center;">
+        <button id="deleteButton"
+                data-animal-id="${animal.id}"
+                style="width: 120px; padding: 10px 20px; background-color: darkred; color: white; border: none; cursor: pointer;">
+          Usuń
+        </button>
+      </div>
+
+      <!-- Potwierdzenie usunięcia (początkowo ukryte) -->
+      <div id="confirmationDialog" style="display: none; margin-top: 10px; text-align: center;">
+        <p>Czy na pewno chcesz usunąć zwierzę?</p>
+        <form method="post" th:action="@{'/animal/' + ${id}}">
+          <!-- Ukryte pole do przekazania identyfikatora zwierzęcia -->
+          <input type="hidden" name="id" th:value="${id}" />
+          <button id="confirmDelete" style="float: left; background-color: darkred; color: white; cursor: pointer;">Tak</button>
+        </form>
+        <button id="cancelDelete" style="float: left; background-color: #2e7d32; color: white; cursor: pointer;">Anuluj</button>
+        <div style="clear: both;"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -130,6 +150,30 @@
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/css/js/js/script.js}"></script>
+
+<script>
+  $(document).ready(function() {
+
+    let isDeleted = false;
+
+    $('#deleteButton').click(function() {
+      $('#confirmationDialog').show();
+    });
+
+    $('#confirmDelete').click(function() {
+      $('#confirmationDialog').hide();
+
+      if (!isDeleted) {
+        document.getElementById('deleteForm').submit();
+        isDeleted = true;
+      }
+    });
+
+    $('#cancelDelete').click(function() {
+      $('#confirmationDialog').hide();
+    });
+  });
+</script>
 
 </body>
 </html>
