@@ -36,6 +36,7 @@ public class StaffController {
     @PostMapping("/addStaffMember")
     public String addStaffMember(Model model, @ModelAttribute("addingModel") UserAddingModel userAddingModel) throws ParseException {
         User addedUser = userAddingModel.getUser();
+        if(userRepository.findUserByUsername(addedUser.getUsername())!=null) return "redirect:/addStaffMember?errorExists";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         addedUser.setPassword(encoder.encode(addedUser.getPassword()));
         Authority addedAuthority = userAddingModel.getAuthority();

@@ -177,6 +177,9 @@
           <button class="btn btn-default" title="Dodaj użytkownika" type="submit">
             Dodaj
           </button>
+                    <div th:if="${param.errorExists}" style="color:red; margin-top:15px; margin-bottom:15px">
+                    BŁĄD: Użytkownik o takiej nazwie już istnieje!
+                </div>
         </span>
             </form>
         </div>
