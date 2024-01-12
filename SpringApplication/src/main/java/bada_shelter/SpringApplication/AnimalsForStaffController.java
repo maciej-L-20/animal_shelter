@@ -90,7 +90,7 @@ public class AnimalsForStaffController {
             breedAndSpecies = breedAndSpeciesRepository.findByBreedAndSpecies(formatText(breed), species);
         }
         animal.setBreedAndSpecies(breedAndSpecies.get(0));
-        model.addAttribute("successType", "add");
+        model.addAttribute("successType", "addAnimal");
         animalRepository.save(animal);
         return "/staff/successful_operation";
     }
@@ -113,7 +113,7 @@ public class AnimalsForStaffController {
     @PostMapping("/animal/{id}")
     public String deleteAnimal(@PathVariable Long id, Model model) {
         animalRepository.deleteById(id);
-        model.addAttribute("successType", "delete");
+        model.addAttribute("successType", "deleteAnimal");
         return "/staff/successful_operation";
     }
     public static String formatText(String text) {
