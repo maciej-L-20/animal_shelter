@@ -96,13 +96,15 @@
         <div class="form-header">
           <h2>Wyszukaj użytkownika</h2>
         </div>
+
         <!-- Username -->
         <div class="form-row">
           <div class="form-group col-md-6">
-          <label for="username">Nazwa użytkownika</label>
-          <input class="form-control" id="username" name="username" placeholder="Nazwa użytkownika" type="text"/>
+            <label for="username">Nazwa użytkownika</label>
+            <input class="form-control" id="username" name="username" placeholder="Nazwa użytkownika" type="text"/>
           </div>
-          </div>
+        </div>
+
         <!-- Name and Surname -->
         <div class="form-row">
           <!-- Name -->
@@ -120,14 +122,37 @@
 
         <!-- Birthday and PESEL -->
         <div class="form-row">
-
           <!-- PESEL -->
           <div class="form-group col-md-5">
             <label for="pesel">PESEL</label>
             <input class="form-control" id="pesel" name="pesel" type="text"/>
           </div>
+          <!-- Phone -->
+          <div class="form-group col-md-6">
+            <label for="phone">Telefon</label>
+            <input class="form-control" id="phone" name="phone" placeholder="Telefon" type="text"/>
+          </div>
         </div>
 
+        <!-- Gender, Email, and Phone -->
+        <div class="form-row">
+          <!-- Gender -->
+          <div class="form-group col-md-5">
+            <label for="gender">Płeć</label>
+            <select class="form-control" id="gender" name="gender">
+              <option value="">Wybierz</option>
+              <option value="M">Mężczyzna</option>
+              <option value="K">Kobieta</option>
+            </select>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group col-md-6">
+            <label for="email">Adres Email</label>
+            <input class="form-control" id="email" name="email" placeholder="Adres Email" type="text"/>
+          </div>
+
+        </div>
 
         <!-- Search button -->
         <span class="input-group-btn">
@@ -139,6 +164,7 @@
     </div>
   </div>
 </div>
+
 
 
 

@@ -31,3 +31,12 @@ CREATE SEQUENCE Sequence_id_uprawnienia
  NOMINVALUE
  CACHE 20
 /
+
+ALTER TABLE uzytkownicy
+    ADD plec VARCHAR2(10); -- Określ odpowiedni typ danych i rozmiar dla kolumny "plec"
+
+ALTER TABLE uzytkownicy
+    ADD adres_email VARCHAR2(255); -- Określ odpowiedni typ danych i rozmiar dla kolumny "adres_email"
+
+ALTER TABLE uzytkownicy
+    ADD telefon VARCHAR2(20); -- Określ odpowiedni typ danych i rozmiar dla kolumny "telefon"

@@ -122,6 +122,16 @@
                             </select>
                         </div>
                     </div>
+                    <!-- Gender -->
+                    <div class="form-group col-md-5">
+                        <label for="gender">Płeć</label>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <select class="form-control mr-1" id="gender" th:field="*{user.gender}">
+                                <option value="M">Mężczyzna</option>
+                                <option value="K">Kobieta</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- First Name and Last Name -->
@@ -138,6 +148,19 @@
                         <label for="lastName">Nazwisko</label>
                         <input class="form-control" id="lastName" placeholder="Nazwisko" th:field="*{user.lastName}"
                                type="text"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <!-- Email -->
+                    <div class="form-group col-md-6">
+                        <label for="email">Adres Email</label>
+                        <input class="form-control" id="email" th:field="*{user.email}" placeholder="Adres Email" type="text"/>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group col-md-5">
+                        <label for="phone">Telefon</label>
+                        <input class="form-control" id="phone" th:field="*{user.phone}" placeholder="Telefon" type="text"/>
                     </div>
                 </div>
 

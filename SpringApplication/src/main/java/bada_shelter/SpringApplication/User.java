@@ -33,4 +33,11 @@ public class User {
     private String address;
     @Transient
     private String currentAuthority;
+    @Column(name="plec")
+    private String gender;
+    @Column(name = "adres_email")
+    private String email;
+    @Column(name = "telefon")
+    private String phone;
+
 }

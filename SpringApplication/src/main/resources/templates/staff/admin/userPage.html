@@ -112,14 +112,36 @@
                 <p th:text="${user.currentAuthority != null} ? ${'Uprawnienia: ' + user.currentAuthority} : ''"></p>
                 <p th:text="${user.address != null} ? ${'Adres: ' + user.address} : ''"></p>
                 <p th:text="${user.pesel != null} ? ${'Pesel: ' + user.pesel} : ''"></p>
-                <p th:text="${user.getBirthDate().toString() != null} ? ${'Data Urodzenia: ' + user.getBirthDate().toString()} : ''"></p>
+                <p th:text="${user.gender != null} ? ${'Płeć: ' + user.gender} : ''"></p>
+                <p th:text="${user.phone != null} ? ${'Nr telefonu: ' + user.phone} : ''"></p>
+                <p th:text="${user.email != null} ? ${'Adres email: ' + user.email} : ''"></p>
+                <p th:text="${user.getBirthDate() != null} ? ${'Data Urodzenia: ' + user.getBirthDate().toString()} : ''"></p>
               </details>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <!-- Przycisk "Usuń" dla administratora -->
+      <div style="margin-top: 20px; text-align: center;">
+        <button id="deleteButton"
+                data-user-username="${user.username}"
+                style="width: 120px; padding: 10px 20px; background-color: darkred; color: white; border: none; cursor: pointer;">
+          Usuń
+        </button>
+      </div>
 
+      <!-- Potwierdzenie usunięcia (początkowo ukryte) -->
+      <div id="confirmationDialog" style="display: none; margin-top: 10px; text-align: center;">
+        <p>Czy na pewno chcesz usunąć pracownika?</p>
+        <form method="post" th:action="@{'/deleteUser/' + ${username}}">
+          <!-- Ukryte pole do przekazania identyfikatora zwierzęcia -->
+          <input type="hidden" name="id" th:value="${username}" />
+          <button id="confirmDelete" style="float: left; background-color: darkred; color: white; cursor: pointer;">Tak</button>
+        </form>
+        <button id="cancelDelete" style="float: left; background-color: #2e7d32; color: white; cursor: pointer;">Anuluj</button>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
   </div>
 </div>
 

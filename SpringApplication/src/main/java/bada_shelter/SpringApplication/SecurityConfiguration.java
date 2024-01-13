@@ -57,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/searchUsersPanel").hasAuthority("ADMIN")
                 .antMatchers("/searchUsers").hasAuthority("ADMIN")
                 .antMatchers("/userPage/{username}").hasAuthority("ADMIN")
+                .antMatchers("/deleteUser/{username}").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")

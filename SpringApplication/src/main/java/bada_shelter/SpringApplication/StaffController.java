@@ -55,9 +55,13 @@ public class StaffController {
                              @RequestParam(name = "username", required = false) String username,
                              @RequestParam(name = "firstName", required = false) String firstName,
                              @RequestParam(name = "lastName", required = false) String lastName,
-                             @RequestParam(name = "pesel", required = false) String pesel){
+                             @RequestParam(name = "pesel", required = false) String pesel,
+                             @RequestParam(name = "gender", required = false) String gender,
+                             @RequestParam(name = "email", required = false) String email,
+                             @RequestParam(name = "phone", required = false) String phone
+                             ){
 
-        List<User> foundUsers = userRepository.searchUser(firstName, lastName, username, pesel);
+        List<User> foundUsers = userRepository.searchUser(firstName, lastName, username, pesel,gender,email,phone);
         authorityService.assignCurrentAuthorties(foundUsers);
         model.addAttribute("foundUsers",foundUsers);
         return "/staff/admin/searchUserResult";
@@ -97,5 +101,14 @@ public class StaffController {
         return "/staff/successful_operation";
     }
 
+    @PostMapping("/deleteUser/{username}")
+    public String deleteUser(Model model, @PathVariable String username){
+        User deletedUser = userRepository.findUserByUsername(username);
+        Authority authority = authorityRepository.findAuthorityByUser(deletedUser);
+        authorityRepository.delete(authority);
+        userRepository.delete(deletedUser);
+        model.addAttribute("successType","deleteUser");
+        return "/staff/successful_operation";
+    }
 
 }
