@@ -115,7 +115,7 @@
                 <p th:text="${user.gender != null} ? ${'Płeć: ' + user.gender} : ''"></p>
                 <p th:text="${user.phone != null} ? ${'Nr telefonu: ' + user.phone} : ''"></p>
                 <p th:text="${user.email != null} ? ${'Adres email: ' + user.email} : ''"></p>
-                <p th:text="${user.getBirthDate() != null} ? ${'Data Urodzenia: ' + user.getBirthDate().toString()} : ''"></p>
+                <p th:text="${user.getBirthDate() != null} ? ${'Data urodzenia: ' + #dates.format(user.getBirthDate(), 'yyyy-MM-dd')} : ''"></p>
               </details>
             </div>
           </div>
