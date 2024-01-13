@@ -116,6 +116,37 @@ public class AnimalsForStaffController {
         model.addAttribute("successType", "deleteAnimal");
         return "/staff/successful_operation";
     }
+    @GetMapping("/editAnimal/{id}")
+    public String showAnimalEditPanel(@PathVariable Long id, Model model, HttpServletRequest request) {
+        List <String> [] allBreedsAndSpecies = breedAndSpeciesService.getAllBreedsAndSpecies();
+        model.addAttribute("breeds",allBreedsAndSpecies[0]);
+        model.addAttribute("species",allBreedsAndSpecies[1]);
+        Animal animalBefore = animalRepository.getById(id);
+        model.addAttribute("animalBefore", animalBefore);
+        return "/staff/editAnimal_panel";
+    }
+    @PostMapping("/editAnimal/{id}")
+    public String editAnimal(@PathVariable Long id,
+                             @RequestParam(name = "name", required = false) String name,
+                             @RequestParam(name = "age") Integer age,
+                             @RequestParam(name = "mass") Integer mass,
+                             @RequestParam(value = "description", required = false) String description,
+                             @RequestParam(value = "isVaccinated") char isVaccinated,
+                             @RequestParam(value = "isNeutered") char isNeutered, Model model) throws ParseException {
+        Animal animal = animalRepository.getById(id);
+
+        animal.setName(formatText(name));
+        animal.setAge(age);
+        animal.setMass(mass);
+        animal.setIsVaccinated(isVaccinated);
+        animal.setIsNeutered(isNeutered);
+        animal.setDescription(description);
+
+        animalRepository.save(animal);
+
+        model.addAttribute("successType", "editAnimal");
+        return "/staff/successful_operation";
+    }
     public static String formatText(String text) {
         return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }

@@ -50,6 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/main").authenticated()
                 .antMatchers("/search_panel").authenticated()
                 .antMatchers("/addAnimal").authenticated()
+                .antMatchers("/editAnimal").authenticated()
+                .antMatchers("/editAnimal/{id}").authenticated()
                 .antMatchers("/main_staff").authenticated()
                 .antMatchers("/searchAnimals").authenticated()
                 .antMatchers("/changePassword").authenticated()

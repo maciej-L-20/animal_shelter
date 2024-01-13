@@ -120,9 +120,15 @@
           </div>
         </div>
       </div>
-      <!-- Przycisk "Usuń" dla administratora -->
-      <div style="margin-top: 20px; text-align: center;">
+      <div style="margin-top: 20px; text-align: center; display: flex; justify-content: center;">
+        <!-- Przycisk "Edytuj" dla administratora -->
+        <a th:href="@{/editAnimal/{id}(id=${animal.id})}" class="btn btn-primary" style="width: 120px; padding: 10px 20px; background-color: #5072A7; color: white; border: none; cursor: pointer; margin-right: 10px;">
+          Edytuj
+        </a>
+
+        <!-- Przycisk "Usuń" dla administratora -->
         <button id="deleteButton"
+                class="btn btn-primary"
                 data-animal-id="${animal.id}"
                 style="width: 120px; padding: 10px 20px; background-color: darkred; color: white; border: none; cursor: pointer;">
           Usuń
@@ -135,9 +141,9 @@
         <form method="post" th:action="@{'/animal/' + ${id}}">
           <!-- Ukryte pole do przekazania identyfikatora zwierzęcia -->
           <input type="hidden" name="id" th:value="${id}" />
-          <button id="confirmDelete" style="float: left; background-color: darkred; color: white; cursor: pointer;">Tak</button>
+          <button class="btn btn-primary" id="confirmDelete" style="background-color: darkred; color: white; cursor: pointer;">Tak</button>
         </form>
-        <button id="cancelDelete" style="float: left; background-color: #2e7d32; color: white; cursor: pointer;">Anuluj</button>
+        <button class="btn btn-primary" id="cancelDelete" style="background-color: #5072A7; color: white; cursor: pointer;">Anuluj</button>
         <div style="clear: both;"></div>
       </div>
     </div>

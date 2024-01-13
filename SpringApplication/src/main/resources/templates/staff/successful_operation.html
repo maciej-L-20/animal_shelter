@@ -98,10 +98,11 @@
       <p th:if="${successType eq 'addUser'}">Pracownik został dodany pomyślnie</p>
       <p th:if="${successType eq 'deleteUser'}">Pracownik został usunięty pomyślnie</p>
       <p th:if="${successType eq 'changePassword'}">Hasło zostało pomyślnie zmienione</p>
+      <p th:if="${successType eq 'editAnimal'}">Dane o zwierzęciu zostały edytowane pomyślnie</p>
       <div class="text-center mt-3">
         <!-- Przycisk w zależności od rodzaju operacji -->
         <a th:if="${successType eq 'addAnimal'}" th:href="@{/addAnimal}" class="btn btn-primary">Dodaj kolejne zwierzę</a>
-        <a th:if="${successType eq 'changePassword' or successType eq 'deleteAnimal' or successType eq 'deleteUser'}"  th:href="@{/main_staff}" class="btn btn-primary">Powrót do panelu pracownika</a>
+        <a th:if="${successType eq 'changePassword' or successType eq 'deleteAnimal' or successType eq 'deleteUser' or successType eq 'editAnimal'}"  th:href="@{/main_staff}" class="btn btn-primary">Powrót do panelu pracownika</a>
         <a th:if="${successType eq 'addUser'}" th:href="@{/addStaffMember}" class="btn btn-primary">Dodaj kolejnego pracownika</a>
       </div>
     </div>

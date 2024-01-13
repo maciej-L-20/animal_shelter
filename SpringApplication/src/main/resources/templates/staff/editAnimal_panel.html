@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <link href="/images/logo_icon.png" rel="icon" type="image/x-icon">
-    <title>Dodaj zwierzę | Schronisko Przytulne Łapki - strona pracownicza</title>
+    <title>Panel pracownika | Schronisko Przytulne Łapki - strona pracownicza</title>
     <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " th:rel="stylesheet"/>
     <!-- Dodanie Google Fonts - Open Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
@@ -95,9 +95,9 @@
 <div class="content">
     <div class="card" id="search">
         <div class="card-body">
-            <form method="post" th:action="@{/addAnimal}">
+            <form method="post" th:action="@{'/editAnimal/' + ${animalBefore.id}}" th:object="${animalBefore}">
                 <div class="form-header">
-                    <h2>Dodaj zwierzę</h2>
+                    <h2>Edytuj zwierzę</h2>
                 </div>
 
                 <!--Name and gender-->
@@ -105,18 +105,14 @@
                     <!-- Pet's name -->
                     <div class="form-group col-md-6">
                         <label for="name">Imię zwierzęcia</label>
-                        <input class="form-control" id="name" name="name" type="text"/>
+                        <input class="form-control" id="name" name="name" th:value="${animalBefore.name}" type="text"/>
                     </div>
 
                     <!-- Gender -->
                     <div class="form-group col-md-5">
                         <label>Płeć</label>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <select class="form-control mr-1" id="gender" name="gender">
-                                <option></option>
-                                <option value="Samiec">Samiec</option>
-                                <option value="Samica">Samica</option>
-                            </select>
+                            <input class="form-control" id="gender" name="gender" th:placeholder="${animalBefore.gender}" type="text" title="Nie można edytować" disabled/>
                         </div>
                     </div>
                 </div>
@@ -126,14 +122,14 @@
                     <!-- Age -->
                     <div class="form-group col-md-5">
                         <label>Wiek</label>
-                        <input class="form-control" id="age" min="0" name="age" step="1"
+                        <input class="form-control" id="age" min="0" name="age" step="1" th:value="${animalBefore.age}"
                                type="number">
                     </div>
                     <!-- Mass -->
                     <div class="form-group col-md-5">
                         <label>Masa</label>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <input class="form-control" id="mass" min="0" name="mass" step="1"
+                            <input class="form-control" id="mass" min="0" name="mass" step="1" th:value="${animalBefore.mass}"
                                    type="number">
                         </div>
                     </div>
@@ -145,12 +141,7 @@
                     <div class="form-group col-md-4">
                         <label>Gatunek</label>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <select class="form-control mr-1" id="species" name="species">
-                                <option></option>
-                                <option th:each="specie : ${species}" th:text="${specie}"
-                                        th:value="${specie}">
-                                </option>
-                            </select>
+                            <input class="form-control" id="specie" name="specie" th:placeholder="${animalBefore.breedAndSpecies.getSpecies()}" type="text" title="Nie można edytować" disabled/>
                         </div>
                     </div>
 
@@ -158,21 +149,18 @@
                     <div class="form-group col-md-6">
                         <label>Rasa</label>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <select class="form-control mr-1" id="breed" name="breed" disabled> <!-- Pole rasy zablokowane -->
-                                <option></option>
-                                <option th:each="breed : ${breeds}" th:text="${breed}" th:value="${breed}">
-                                </option>
-                            </select>
+                            <input class="form-control" id="breed" name="breed" th:placeholder="${animalBefore.breedAndSpecies.getBreed()}" type="text" title="Nie można edytować" disabled/>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <!-- Age -->
+                    <!-- Date -->
                     <div class="form-group col-md-4">
                         <label>Data przyjęcia</label>
                         <div class="d-flex flex-row justify-content-between align-items-center">
-                            <input id="acceptanceDate" name="acceptanceDate" type="date"/>
+                            <input id="acceptanceDate" name="acceptanceDate" th:placeholder="${#dates.format(animalBefore.acceptanceDate, 'yyyy-MM-dd')}" type="text" title="Nie można edytować" disabled/>
+
                         </div>
                     </div>
                     <div class="form-group col-md-4 ">
@@ -200,15 +188,16 @@
                     </div>
                 </div>
 
+
                 <div class="form-group">
                     <label for="description">Opis</label>
-                    <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+                    <input class="form-control" id="description" name="description" th:value="${animalBefore.description}" type="text">
                 </div>
 
                 <!-- Add button -->
                 <span class="input-group-btn">
-              <button class="btn btn-default" title="Kliknij, aby dodać zwierzę" type="submit">
-                Dodaj
+              <button class="btn btn-default" title="Kliknij, aby zaktualizować informacje" type="submit">
+                Aktualizuj
               </button>
             </span>
             </form>
@@ -275,6 +264,7 @@
         });
     });
 </script>
+
 
 </body>
 </html>
