@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org"1>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/x-icon" href="/images/logo_icon.png">
-  <title th:text="${animal.name + ' | Schronisko Przytulne Łapki'}"> Animal | Schronisko Przytulne Łapki</title>
+  <title th:text="${animal.name} + ' | Schronisko Przytulne Łapki'"></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 <!-- NAVIGATION -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/index">
       <img th:src="@{/images/logo_icon.png}" class="logo" alt="Logo" />
       Schronisko Przytulne Łapki
     </a>
@@ -42,9 +42,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="animal-details-container">
-        <h1>Informacje o zwierzęciu
-          <p th:text="${animal.name != null} ? ${animal.name} : ''"></p>
-        </h1>
+        <h1 th:text="'Informacje o zwierzęciu: '+ (${animal.name != null} ? ${animal.name} : '')"></h1>
 
         <!-- Informacje o zwierzęciu -->
         <div class="d-flex align-items-start">

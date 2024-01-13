@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
-  <title>Panel pracownika | Schronisko Przytulne Łapki - strona pracownicza</title>
+  <title th:text="${animal.name} + ' | Schronisko Przytulne Łapki - strona pracownicza'"></title>
   <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
   <!-- Dodanie Google Fonts - Open Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
@@ -91,9 +91,7 @@
   <div class="row">
     <div class="col-md-10 mt-5">
       <div class="animal-details-container">
-        <h1>Informacje o zwierzęciu
-          <p th:text="${animal.name != null} ? ${animal.name} : ''"></p>
-        </h1>
+        <h1 th:text="'Informacje o zwierzęciu: '+ (${animal.name != null} ? ${animal.name} : '')"></h1>
 
         <!-- Informacje o zwierzęciu -->
         <div class="d-flex align-items-start">
