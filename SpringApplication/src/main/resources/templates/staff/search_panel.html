@@ -240,10 +240,11 @@
                 fetch(`/getBreedsBySpecies/${selectedSpecies}`)
                     .then(response => response.json())
                     .then(data => {
-                        const uniqueBreeds = new Set(data); // Utwórz zestaw, który automatycznie usuwa duplikaty
+                        const uniqueBreeds = Array.from(new Set(data)); // tablica z unikalnymi rasami
+                        const sortedBreeds = uniqueBreeds.sort(); // sortowanie ras alfabetycznie
 
-                        // Przed dodaniem opcji do listy, sprawdź czy opcja już nie istnieje
-                        uniqueBreeds.forEach(breed => {
+                        // Przed dodaniem opcji do listy sprawdzenie czy opcja już nie istnieje
+                        sortedBreeds.forEach(breed => {
                             if (!breedDropdown.querySelector(`[value="${breed}"]`)) {
                                 const option = document.createElement('option');
                                 option.value = breed;
