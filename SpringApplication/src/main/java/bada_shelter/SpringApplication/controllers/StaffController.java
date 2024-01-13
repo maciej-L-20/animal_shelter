@@ -1,17 +1,20 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.controllers;
 
+import bada_shelter.SpringApplication.jpaRepositories.AuthorityRepository;
+import bada_shelter.SpringApplication.services.AuthorityService;
+import bada_shelter.SpringApplication.jpaRepositories.UserRepository;
+import bada_shelter.SpringApplication.models.Authority;
+import bada_shelter.SpringApplication.models.User;
+import bada_shelter.SpringApplication.models.UserAddingModel;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,13 +40,16 @@ public class StaffController {
     public String addStaffMember(Model model, @ModelAttribute("addingModel") UserAddingModel userAddingModel) throws ParseException {
         User addedUser = userAddingModel.getUser();
         if(userRepository.findUserByUsername(addedUser.getUsername())!=null) return "redirect:/addStaffMember?errorExists";
+        if(!EmailValidator.getInstance().isValid(addedUser.getEmail())) return "redirect:/addStaffMember?invalidEmail";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         addedUser.setPassword(encoder.encode(addedUser.getPassword()));
         Authority addedAuthority = userAddingModel.getAuthority();
         addedAuthority.setUser(addedUser);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date parsed = format.parse(userAddingModel.birthDateString);
-        addedUser.setBirthDate(parsed);
+        if (userAddingModel.getBirthDateString() !="") {
+            Date parsed = format.parse(userAddingModel.getBirthDateString());
+            addedUser.setBirthDate(parsed);
+        }
         userRepository.save(addedUser);
         authorityRepository.save(addedAuthority);
         model.addAttribute("successType","addUser");

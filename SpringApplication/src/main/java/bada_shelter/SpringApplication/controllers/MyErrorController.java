@@ -1,4 +1,4 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.controllers;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;

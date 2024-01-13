@@ -1,11 +1,11 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.controllers;
 
-import bada_shelter.SpringApplication.Animal;
-import bada_shelter.SpringApplication.BreedAndSpecies;
-import bada_shelter.SpringApplication.AnimalRepository;
-import bada_shelter.SpringApplication.BreedAndSpeciesRepository;
-import bada_shelter.SpringApplication.AnimalService;
-import bada_shelter.SpringApplication.BreedAndSpeciesService;
+import bada_shelter.SpringApplication.jpaRepositories.AnimalRepository;
+import bada_shelter.SpringApplication.services.AnimalService;
+import bada_shelter.SpringApplication.jpaRepositories.BreedAndSpeciesRepository;
+import bada_shelter.SpringApplication.services.BreedAndSpeciesService;
+import bada_shelter.SpringApplication.models.Animal;
+import bada_shelter.SpringApplication.models.BreedAndSpecies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;

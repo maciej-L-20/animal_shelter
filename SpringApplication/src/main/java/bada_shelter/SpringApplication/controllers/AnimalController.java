@@ -1,21 +1,17 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.controllers;
 
+import bada_shelter.SpringApplication.jpaRepositories.AnimalRepository;
+import bada_shelter.SpringApplication.jpaRepositories.BreedAndSpeciesRepository;
+import bada_shelter.SpringApplication.models.Animal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class AnimalController {

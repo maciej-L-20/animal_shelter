@@ -203,6 +203,9 @@
                     <div th:if="${param.errorExists}" style="color:red; margin-top:15px; margin-bottom:15px">
                     BŁĄD: Użytkownik o takiej nazwie już istnieje!
                 </div>
+                    <div th:if="${param.invalidEmail}" style="color:red; margin-top:15px; margin-bottom:15px">
+                    BŁĄD: Niepoprawny adres email!
+                </div>
         </span>
             </form>
         </div>

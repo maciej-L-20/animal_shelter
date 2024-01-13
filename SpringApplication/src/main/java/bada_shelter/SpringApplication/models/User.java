@@ -1,4 +1,4 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.models;
 
 import lombok.Data;
 import org.springframework.data.annotation.Transient;

@@ -1,4 +1,4 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.models;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

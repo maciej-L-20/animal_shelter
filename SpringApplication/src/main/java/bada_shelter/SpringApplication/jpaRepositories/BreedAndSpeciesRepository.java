@@ -1,5 +1,6 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.jpaRepositories;
 
+import bada_shelter.SpringApplication.models.BreedAndSpecies;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

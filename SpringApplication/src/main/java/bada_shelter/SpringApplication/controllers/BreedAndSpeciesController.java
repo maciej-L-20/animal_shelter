@@ -1,15 +1,13 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.controllers;
 
+import bada_shelter.SpringApplication.jpaRepositories.BreedAndSpeciesRepository;
+import bada_shelter.SpringApplication.models.BreedAndSpecies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 public class BreedAndSpeciesController {

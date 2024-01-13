@@ -1,8 +1,8 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.controllers;
 
-import bada_shelter.SpringApplication.Animal;
-import bada_shelter.SpringApplication.AnimalService;
-import bada_shelter.SpringApplication.BreedAndSpeciesService;
+import bada_shelter.SpringApplication.models.Animal;
+import bada_shelter.SpringApplication.services.AnimalService;
+import bada_shelter.SpringApplication.services.BreedAndSpeciesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

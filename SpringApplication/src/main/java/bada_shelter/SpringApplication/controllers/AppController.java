@@ -1,4 +1,4 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.controllers;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;

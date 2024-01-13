@@ -1,5 +1,7 @@
-package bada_shelter.SpringApplication;
+package bada_shelter.SpringApplication.jpaRepositories;
 
+import bada_shelter.SpringApplication.models.Authority;
+import bada_shelter.SpringApplication.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
