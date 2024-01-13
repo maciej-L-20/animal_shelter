@@ -110,7 +110,7 @@ public class AnimalsForStaffController {
         model.addAttribute("added",added);
         return "/staff/add_panel";
     }
-    @PostMapping("/animal/{id}")
+    @PostMapping("/deleteAnimal/{id}")
     public String deleteAnimal(@PathVariable Long id, Model model) {
         animalRepository.deleteById(id);
         model.addAttribute("successType", "deleteAnimal");
